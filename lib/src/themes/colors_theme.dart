@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class Themes {
   static final light = ThemeData.light().copyWith(
     appBarTheme: const AppBarTheme(
-        color: Colors.white,
-        centerTitle: true,
-        actionsIconTheme: IconThemeData(color: Colors.green)),
+      backgroundColor: Colors.white,
+      // titleTextStyle: TextStyle(color: Colors.black),
+      centerTitle: true,
+      iconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(color: Colors.black),
+      actionsIconTheme: IconThemeData(color: Colors.black),
+    ),
     //  primarySwatch: Colors.grey,
     primaryColor: Colors.white,
     brightness: Brightness.light,
@@ -21,8 +25,17 @@ class Themes {
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black),
   );
   static final dark = ThemeData.dark().copyWith(
+    appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(color: Colors.white),
+      // color: Colors.white,
+      backgroundColor: Colors.black,
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      hintStyle: TextStyle(color: Colors.grey),
+      labelStyle: TextStyle(color: Colors.white),
+    ),
     // primarySwatch: Colors.grey,
-    primaryColor: Colors.black,
+    // primaryColor: Colors.black,
     brightness: Brightness.dark,
     dividerColor: Colors.black12,
     // backgroundColor: Colors.black,

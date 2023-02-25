@@ -1,17 +1,24 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jsquare/src/screens/pages_screen/home_page.dart';
 
+import 'src/screens/pages_screen/my_cart_page.dart';
 import 'src/themes/colors_theme.dart';
 import 'src/themes/theme_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  runApp(const MyApp());
+  // for showing full screen
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  //for setting orientation to portrait only
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) async {
+    await GetStorage.init();
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -23,11 +30,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'jSquare',
       theme: Themes.light,
-      // initialRoute: '/splash_screen',
-      // themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
       themeMode: ThemeService().theme,
       darkTheme: Themes.dark,
-      home: const HomePage(),
+      // routes: appRoutes(),
+      home: const MyCart(),
     );
   }
 }

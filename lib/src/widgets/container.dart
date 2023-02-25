@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 
-Container container(Widget? child, double? height, double? width) {
-  return Container(
-    padding: const EdgeInsets.symmetric(vertical: 5),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(4),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.white,
-          offset: Offset(3, 0),
-          blurStyle: BlurStyle.solid,
+class GlobalContainer extends StatelessWidget {
+  final double height;
+  final double width;
+  final double borderWidth;
+  final double? radius;
+  final Color? color;
+  final Widget? child;
+  const GlobalContainer({
+    super.key,
+    required this.height,
+    required this.width,
+    required this.borderWidth,
+    this.radius,
+    this.color,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(
+          width: borderWidth,
         ),
-      ],
-    ),
-    height: height,
-    width: width,
-    child: child,
-  );
+        borderRadius: BorderRadius.circular(
+          radius!,
+        ),
+      ),
+      child: child!,
+    );
+  }
 }
