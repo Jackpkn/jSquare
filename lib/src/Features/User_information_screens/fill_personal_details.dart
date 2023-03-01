@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jsquare/src/widgets/container.dart';
+import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
-import '../../widgets/textfromfield.dart';
+import '../../GlobalWidgets/textfromfield.dart';
 
 class DetailFillPage extends StatefulWidget {
   const DetailFillPage({super.key});
@@ -69,96 +69,88 @@ class _DetailFillPageState extends State<DetailFillPage> {
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                     
+                    obscureText: false,
                     labelText: ' First Name',
                     hintText: 'Enter Your First Name',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                   
+                    obscureText: false,
                     hintText: ' Enter Your Middle Name',
                     labelText: ' Middle Name',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: ' Enter Your Last Name',
                     labelText: ' Last Name',
-                    validator: (P) {
-                      return null;
-                    },
+                 
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                  
+                    obscureText: false,
                     hintText: 'Enter Your Address Line 1',
                     labelText: 'Address Line 1',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Address Line 2',
                     labelText: 'Address Line 2',
-                    validator: (P) {
-                      return null;
-                    },
+                  
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Address Line 3',
                     labelText: 'Address Line 3',
-                    validator: (P) {
-                      return null;
-                    },
+                    
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                   
                     hintText: 'Enter Your Pin code Number',
                     labelText: 'Postal Code',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Pin  LandMark',
                     labelText: 'LandMark',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
@@ -221,24 +213,22 @@ class _DetailFillPageState extends State<DetailFillPage> {
                     height: 16,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Pin  Mobile Number',
                     labelText: 'Mobile Number',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Pin  Email Address',
                     labelText: 'Email Address',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(
@@ -252,24 +242,22 @@ class _DetailFillPageState extends State<DetailFillPage> {
                     height: 16,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false,
+                    
                     hintText: 'Enter Your Aadhaar   number',
                     labelText: 'Aadhaar Number',
-                    validator: (P) {
-                      return null;
-                    },
+                  
                     controller: controller,
                   ),
                   const SizedBox(
                     height: 13,
                   ),
                   TextFormInput(
-                    onSaved: (p) {},
+                    obscureText: false, 
+                   
                     hintText: 'Enter Your Aadhaar   number',
                     labelText: 'PAN ',
-                    validator: (P) {
-                      return null;
-                    },
+                   
                     controller: controller,
                   ),
                   const SizedBox(

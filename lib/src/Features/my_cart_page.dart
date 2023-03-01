@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/models/product_models.dart';
-import 'package:jsquare/src/widgets/container.dart';
+import 'package:jsquare/src/GlobalWidgets/container.dart';
 
-import '../../widgets/cached_network_image.dart';
+import '../GlobalWidgets/cached_network_image.dart';
 
 class MyCart extends StatelessWidget {
   const MyCart({super.key});

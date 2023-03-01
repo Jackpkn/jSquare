@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/models/product_models.dart';
-import 'package:jsquare/src/widgets/container.dart';
+import 'package:jsquare/src/GlobalWidgets/container.dart';
 
 import '../../controller/icon_visible_controler.dart';
-import '../../widgets/rating.dart';
+import '../../GlobalWidgets/rating.dart';
 
 class Filter extends StatefulWidget {
   const Filter({super.key});
@@ -45,9 +45,9 @@ class _FilterState extends State<Filter> {
                         radius: 9,
                         borderWidth: 1,
                         color: Colors.black,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.filter_alt_rounded,
                               color: Colors.white,
@@ -110,10 +110,10 @@ class _FilterState extends State<Filter> {
                         children: brand
                             .map(
                               (options) => CheckboxListTile(
-                                tristate: true,
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 value: false,
+                                tristate: true,
                                 title: Text(options.name.toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),
@@ -139,10 +139,10 @@ class _FilterState extends State<Filter> {
                         children: price
                             .map(
                               (options) => CheckboxListTile(
-                                tristate: true,
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 value: false,
+                                tristate: true,
                                 title: Text(options.name.toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),
@@ -170,6 +170,7 @@ class _FilterState extends State<Filter> {
                               (options) => CheckboxListTile(
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
+                                tristate: true,
                                 value: options.isSelected,
                                 title: Text(
                                   options.name.toString(),
@@ -201,10 +202,10 @@ class _FilterState extends State<Filter> {
                         children: resolution
                             .map(
                               (options) => CheckboxListTile(
-                                tristate: true,
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 value: false,
+                                tristate: true,
                                 title: Text(
                                   options.name.toString(),
                                   style: const TextStyle(
@@ -231,10 +232,10 @@ class _FilterState extends State<Filter> {
                         children: displaySize
                             .map(
                               (options) => CheckboxListTile(
-                                tristate: true,
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 value: false,
+                                tristate: true,
                                 title: Text(options.name.toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),

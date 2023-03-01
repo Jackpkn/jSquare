@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jsquare/src/widgets/product_choose.dart';
+import 'package:jsquare/src/GlobalWidgets/product_choose.dart';
 
 import '../../models/product_models.dart';
-import '../../widgets/cached_network_image.dart';
+import '../../GlobalWidgets/cached_network_image.dart';
 
 class SelectedPage extends StatelessWidget {
   SelectedPage({super.key});

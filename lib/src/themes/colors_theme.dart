@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Themes {
   static final light = ThemeData.light().copyWith(
+          
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       // titleTextStyle: TextStyle(color: Colors.black),

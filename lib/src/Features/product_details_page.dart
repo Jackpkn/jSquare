@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/models/cart_model.dart';
 import 'package:jsquare/src/models/product_models.dart';
-import 'package:jsquare/src/widgets/container.dart';
-import 'package:jsquare/src/widgets/rating.dart';
+import 'package:jsquare/src/GlobalWidgets/container.dart';
+import 'package:jsquare/src/GlobalWidgets/rating.dart';
 
-import '../../widgets/cached_network_image.dart';
+import '../GlobalWidgets/cached_network_image.dart';
+import '../models/tv_models.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key});
+  TvModel data;
+  ProductDetails({
+    super.key,
+    required this.data,
+  });
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -15,7 +20,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int currentIndex = 0;
-
+  final MyModel model = MyModel();
   final PageController controller = PageController();
 
   @override
@@ -84,7 +89,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 280,
                   width: double.infinity,
                   child: PageView.builder(
-                      itemCount: productModel.length,
+                      itemCount: tvModel.length,
                       onPageChanged: (value) {
                         setState(() {
                           currentIndex = value;
@@ -93,6 +98,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       scrollDirection: Axis.horizontal,
                       controller: controller,
                       itemBuilder: (context, index) {
+                        TvModel item = tvModel[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 6),
@@ -104,8 +110,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: CachedNetImage(
                                   height: 250,
                                   width: double.infinity,
-                                  imageUrl:
-                                      productModel[index].image.toString(),
+                                  imageUrl: item.images.toString(),
                                 ),
                               ),
                               Positioned(
@@ -139,8 +144,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       buildIndicator(currentIndex == i)
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(
+                Padding(
+                  padding: const EdgeInsets.only(
                     top: 10,
                     left: 16,
                     right: 16,
@@ -148,8 +153,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Samsung 55 Inches 4K Neo Series Ultra HD Smart LED TV',
-                      style: TextStyle(
+                      widget.data.name.toString(),
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
@@ -160,14 +165,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 9,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text('4.0'),
                     SizedBox(
                       width: 4,
                     ),
-                    RatingButton(rating: 5,),
+                    RatingButton(
+                      rating: 5,
+                    ),
                     SizedBox(
                       width: 4,
                     ),
@@ -177,10 +184,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 12,
                 ),
-                const Align(
+                Align(
                   child: Text(
-                    '₹ 500 per month',
-                    style: TextStyle(
+                    "₹${widget.data.price} Per month",
+                    style: const TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.w400,
                       fontSize: 30,
@@ -248,8 +255,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 200,
                   margin: const EdgeInsets.all(9),
                   child: ListView.builder(
-                      itemCount: 5,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: tvModel.length,
                       itemBuilder: (context, index) {
+                        // String key = model.jack.keys.elementAt(index);
+                        TvModel item = tvModel[index];
                         return Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -264,9 +274,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 height: 40,
                                 color: const Color.fromARGB(255, 206, 203, 203),
                                 width: MediaQuery.of(context).size.width * 0.36,
-                                child: const Align(
+                                child: Align(
                                     alignment: Alignment.center,
-                                    child: Text('Brand')),
+                                    child:
+                                        Text(tvModel[index].productDetails.toString())),
                               ),
                               Expanded(
                                 child: Container(
@@ -274,9 +285,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   color: Colors.white,
                                   child: Align(
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      productModel[index].name.toString(),
-                                    ),
+                                    child: Text(item.productDetails.toString()),
                                   ),
                                 ),
                               )
@@ -285,11 +294,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                         );
                       }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         'Ratings & Reviews',
                         style: TextStyle(
@@ -396,5 +405,14 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
     );
   }
+}
+
+class MyModel {
+  Map<String, String> jack = {
+    'jacl': 'pawan',
+    'pawan': 'nd',
+    'N': 'nd',
+    'J': 'nd',
+  };
 }
 /// ? List.

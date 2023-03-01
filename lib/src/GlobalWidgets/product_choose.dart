@@ -5,12 +5,15 @@ class Product extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   double? width;
+  Color? color;
+  Color? textColor;
   Product(
       {super.key,
       required this.name,
       required this.isSelected,
       required this.onTap,
-      required this.width});
+      required this.width,
+      this.color, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +28,8 @@ class Product extends StatelessWidget {
         // margin: const EdgeInsets.only(left: 6, right: 8, top: 6),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 1.3),
-          borderRadius: BorderRadius.circular(20),
-          color: isSelected ? Colors.black : Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          color: color,
         ),
         child: Align(
           alignment: Alignment.center,
@@ -34,7 +37,7 @@ class Product extends StatelessWidget {
             name,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black,
+              color: textColor,
               fontSize: 16,
             ),
           ),

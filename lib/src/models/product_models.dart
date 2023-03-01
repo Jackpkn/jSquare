@@ -8,51 +8,27 @@ class ProductModel {
 List<ProductModel> productModel = [
   ProductModel(
     image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'TVs',
+        'https://st.depositphotos.com/2208320/2099/v/450/depositphotos_20992801-stock-illustration-refrigerator-vector-vector-illustration.jpg',
+    name: 'Fridges',
     description: 'Starting from ₹500',
   ),
   ProductModel(
     image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'Light',
+        'https://st.depositphotos.com/2133879/3047/v/600/depositphotos_30476781-stock-illustration-washing-machine.jpg',
+    name: 'Washing Machines',
     description: 'Starting from ₹500',
   ),
   ProductModel(
     image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
+        'https://static5.depositphotos.com/1005574/413/v/600/depositphotos_4130311-stock-illustration-tv-lcd.jpg',
     name: 'Mango',
     description: 'Starting from ₹500',
   ),
   ProductModel(
     image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
+        'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
     name: 'TVs',
-    description: 'Starting from ₹500',
-  ),
-  ProductModel(
-    image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'TVs',
-    description: 'Starting from ₹500',
-  ),
-  ProductModel(
-    image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'TVs',
-    description: 'Starting from ₹500',
-  ),
-  ProductModel(
-    image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'TVs',
-    description: 'Starting from ₹500',
-  ),
-  ProductModel(
-    image:
-        'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-    name: 'TVs',
-    description: 'Starting from ₹500',
+    description: 'Starting from ₹600',
   ),
 ];
 
@@ -158,4 +134,23 @@ List<Checkout> checkout = [
   Checkout(name: 'GST(18%)', price: 314.46),
   Checkout(name: 'Discount(-10%)', price: 174.7),
   Checkout(name: 'Amount to be paid', price: 1888.76),
+];
+
+class Models {
+  Map<String, String>? image;
+  Map<String, Map<String, String>>? images;
+  Models({this.image, this.images});
+}
+
+List<Models> list = [
+  Models(
+    image: {
+      'image': 'image',
+    },
+    images: {
+      'name': {
+        "jack": "pawan",
+      },
+    }
+  ),
 ];
