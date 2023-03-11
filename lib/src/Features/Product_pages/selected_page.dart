@@ -94,7 +94,9 @@ class SelectedPage extends StatelessWidget {
                   itemCount: productModel.length,
                   itemBuilder: (ctx, i) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        
+                      },
                       child: SizedBox(
                         height: 90,
                         width: 90,

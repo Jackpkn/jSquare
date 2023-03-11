@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
-import '../../GlobalWidgets/textfromfield.dart';
+import '../../../GlobalWidgets/textfromfield.dart';
 
 class DetailFillPage extends StatefulWidget {
   const DetailFillPage({super.key});

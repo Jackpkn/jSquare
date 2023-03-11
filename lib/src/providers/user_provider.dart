@@ -35,4 +35,9 @@ class UserProvider extends GetxController {
     _user = User.fromJson(user);
     update();
   }
+
+  void setUserFromModel(User user) {
+    _user = user;
+    update();
+  }
 }

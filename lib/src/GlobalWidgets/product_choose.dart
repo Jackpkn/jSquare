@@ -25,7 +25,7 @@ class Product extends StatelessWidget {
         // width: 170,
 
         width: width,
-        // margin: const EdgeInsets.only(left: 6, right: 8, top: 6),
+        
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 1.3),
           borderRadius: BorderRadius.circular(10),

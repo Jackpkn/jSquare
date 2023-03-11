@@ -4,8 +4,8 @@ import 'package:jsquare/src/models/product_models.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:jsquare/src/GlobalWidgets/rating.dart';
 
-import '../GlobalWidgets/cached_network_image.dart';
-import '../models/tv_models.dart';
+import '../../../GlobalWidgets/cached_network_image.dart';
+import '../../../models/tv_models.dart';
 
 class ProductDetails extends StatefulWidget {
   TvModel data;

@@ -7,30 +7,47 @@ class SignUpController extends GetxController {
   // AuthService authService = Get.put(AuthService());
   final auth = Get.lazyPut(() => AuthService());
   static SignUpController get instance => Get.find();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController secondNameController = TextEditingController();
+  TextEditingController emailNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController mobileNameController = TextEditingController();
+  TextEditingController passwordNameController = TextEditingController();
+// initState => onInit
+// dispose = >
   @override
   void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    firstNameController.dispose();
+    secondNameController.dispose();
+    emailNameController.dispose();
+    userNameController.dispose();
+    userNameController.dispose();
+    mobileNameController.dispose();
+    passwordNameController.dispose();
 
     super.dispose();
   }
 
-
-
   void signUpUser(
     String name,
     String email,
+    String userName,
+    String mobileNumber,
     String password,
   ) {
     final a = Get.find<AuthService>();
     a.signUp(
+      name: name,
       email: email,
       password: password,
     );
   }
 }
+
+// Map<STRING, Map<String, dynamic> > get {
+// 'get': {
+//  'home' : " json",
+//
+// }}
+ 
+ 

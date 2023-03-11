@@ -8,6 +8,7 @@ class TextFormInput extends StatelessWidget {
 
   final TextEditingController controller;
   final Widget? icon;
+  String? Function(String?)? validator;
   TextFormInput({
     super.key,
     required this.hintText,
@@ -16,6 +17,7 @@ class TextFormInput extends StatelessWidget {
     this.obscureText,
     this.icon,
     this.maxLines = 1,
+    this.validator
   });
 
   @override
@@ -24,12 +26,8 @@ class TextFormInput extends StatelessWidget {
       maxLines: maxLines,
       obscureText: obscureText!,
       controller: controller,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter $hintText';
-        }
-        return null;
-      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator:  validator,
       style: const TextStyle(
         fontSize: 12,
         color: Colors.blue,

@@ -1,48 +1,55 @@
-import 'package:get/get.dart';
-import 'package:jsquare/src/models/tv_models.dart';
-import 'package:jsquare/src/Features/Product_pages/tv_products/tv_products.dart';
-import 'package:jsquare/src/Features/filter_page.dart';
+import 'package:flutter/material.dart';
+import 'package:jsquare/src/Features/Home/screens/home_page.dart';
+import 'package:jsquare/src/Features/category/screens/category_product.dart';
+import 'package:jsquare/src/Features/auth/screens/fotgot_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/login_screen.dart';
-import 'package:jsquare/src/Features/my_cart_page.dart';
-import 'package:jsquare/src/Features/product_details_page.dart';
+import 'package:jsquare/src/Features/auth/screens/opt_screen.dart';
+import 'package:jsquare/src/Features/auth/screens/signup_screen.dart';
 
-TvModel? data;
-appRoutes() => [
-      GetPage(
-        name: 'login',
-        page: () => LoginScreen(),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'home',
-        page: () => const TVsPage(),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'home',
-        page: () => const TVsPage(),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'TvS',
-        page: () => const TVsPage(),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'ProductDetails',
-        page: () => ProductDetails(
-          data: data!,
+Route<dynamic> generateRoutes(RouteSettings routeSettings) {
+  switch (routeSettings.name) {
+    case IntroPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const IntroPage(),
+      );
+    case LoginScreen.routeName:
+      return MaterialPageRoute(
+        builder: (_) => LoginScreen(),
+      );
+    case SignUpScreen.routeName:
+      return MaterialPageRoute(
+        builder: (_) => SignUpScreen(),
+      );
+    case ForgotScreen.routeName:
+      return MaterialPageRoute(
+        builder: (_) => ForgotScreen(),
+      );
+    case OtpScreen.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const OtpScreen(),
+      );
+    case Screen.routeName:
+      final category = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        builder: (_) => Screen(
+          category: category,
         ),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'MyCart',
-        page: () => const MyCart(),
-        transition: Transition.rightToLeft,
-      ),
-      GetPage(
-        name: 'filterPage',
-        page: () => const FilterPage(),
-        transition: Transition.rightToLeft,
-      ),
-    ];
+      );
+      case CategoryProduct.routeName:
+      final category = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        builder: (_) => CategoryProduct(
+          category: category,
+        ),
+      );
+    default:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const Scaffold(
+          body: Center(
+            child: Text('Screen does not exist!'),
+          ),
+        ),
+      );
+  }
+}

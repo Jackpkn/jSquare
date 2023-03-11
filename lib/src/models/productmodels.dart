@@ -5,6 +5,7 @@ import 'dart:convert';
  
 import 'package:jsquare/src/models/rating.dart';
 
+
 class Product {
   final String name;
   final String description;

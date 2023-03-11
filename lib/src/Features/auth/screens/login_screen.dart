@@ -9,6 +9,7 @@ import '../../../controller/icon_visible_controler.dart';
 import '../../../GlobalWidgets/textfromfield.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String routeName = 'login-screen';
   LoginScreen({super.key});
 
   final loginController = Get.lazyPut(() => LoginController(), fenix: true);
@@ -90,7 +91,9 @@ class LoginScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.topLeft,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed('forgot-screen');
+                          },
                           child: const Text(
                             'Forgot your password?',
                             style: TextStyle(
@@ -127,10 +130,7 @@ class LoginScreen extends StatelessWidget {
                               password:
                                   controller.passwordController.text.trim(),
                             );
-                            // authService.loginUser(
-                            //   email: emailController.text.trim(),
-                            //   password: passwordController.text.trim(),
-                            // );
+                             
                           }
                         },
                         child: GlobalContainer(
@@ -163,7 +163,6 @@ class LoginScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Get.find<AuthService>().googleSign();
-                           
                         },
                         child: GlobalContainer(
                           height: 56,
@@ -246,7 +245,7 @@ class LoginScreen extends StatelessWidget {
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      debugPrint('JACK');
+                                      Get.toNamed('signup');
                                     },
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,

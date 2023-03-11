@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 void httpErrorHandle({
@@ -13,22 +13,26 @@ void httpErrorHandle({
       onSuccess();
       break;
     case 400:
-      Get.showSnackbar(
-        GetSnackBar(
-          message: jsonDecode(response.body)['msg'],
-        ),
-      );
+      EasyLoading.showError(jsonDecode(response.body)['msg']);
+      // Get.showSnackbar(
+
+      //   GetSnackBar(
+      //     message: jsonDecode(response.body)['msg'],
+      //   ),
+      // );
       break;
     case 500:
-      GetSnackBar(
-        message: jsonDecode(response.body)['error'],
-      );
+      EasyLoading.showError(jsonDecode(response.body)['error']);
+      // GetSnackBar(
+      //   message: jsonDecode(response.body)['error'],
+      // );
       break;
     default:
-      Get.showSnackbar(
-        GetSnackBar(
-          message: response.body,
-        ),
-      );
+      EasyLoading.showError(jsonDecode(response.body));
+    // Get.showSnackbar(
+    //   GetSnackBar(
+    //     message: response.body,
+    //   ),
+    // );
   }
 }

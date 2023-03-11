@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jsquare/src/Features/Admin/screens/admin_home_screen.dart';
 
 import 'package:jsquare/src/constants/httperror_handling.dart';
 import 'package:jsquare/src/models/user_models.dart';
@@ -11,22 +13,23 @@ import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Home/screens/home_page.dart';
-import '../../products/produst_page.dart';
 import '../constant/constant.dart';
 
 class AuthService extends GetxController {
   static AuthService get instance => Get.find();
   // 10.2.100.41
+  Rxn<User> user = Rxn<User>();
   final baseUrl = 'http://10.2.100.41:3000/auth/signUp';
 
-  Future<void>? signUp({
+  Future<dynamic> signUp({
+    required String name,
     required String password,
     required String email,
   }) async {
     try {
       User user = User(
         id: '',
-        name: '',
+        name: name,
         email: email,
         password: password,
         address: '',
@@ -34,7 +37,11 @@ class AuthService extends GetxController {
         token: '',
         cart: [],
       );
-      
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+
       final url = Uri.parse('http://10.2.100.41:3000/auth/signUp');
       http.Response response = await http.post(
         url,
@@ -47,32 +54,22 @@ class AuthService extends GetxController {
           'Accept-Encoding': 'gzip, deflate, br',
         },
       );
-      // debugPrint(response as String?);
-      if (response.statusCode == 200) {
-        debugPrint('success');
-        Get.to(const IntroPage());
-      } else if (response.statusCode == 400) {
-        debugPrint('email already exit');
-        Get.to(const IntroPage());
-      } else {
-        debugPrint('some error found');
-      }
-      // httpErrorHandle(
-      //   response: response,
-      //   onSuccess: () {
-      //     Get.showSnackbar(
-      //       const GetSnackBar(
-      //         message: 'Account created successfully! Now login the account',
-      //       ),
-      //     );
-      //   },
-      // );
-    } catch (e) {
-      Get.showSnackbar(
-        GetSnackBar(
-          message: e.toString(),
-        ),
+
+      httpErrorHandle(
+        response: response,
+        onSuccess: () {
+          if (response.statusCode == 200) {
+            EasyLoading.showSuccess('Welcome AMO You');
+            Navigator.of(Get.overlayContext!);
+          } else {
+            EasyLoading.showError('Something Wrong. Try again');
+          }
+        },
       );
+    } catch (e) {
+      EasyLoading.showError('Something wrong. Try again!');
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
@@ -82,6 +79,10 @@ class AuthService extends GetxController {
   }) async {
     Get.put(UserProvider());
     try {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
       Map<String, dynamic> token;
       const loginUrl = 'http://10.2.100.41:3000/auth/login';
       final url = Uri.parse(loginUrl);
@@ -97,7 +98,7 @@ class AuthService extends GetxController {
           'Content-type': 'application/json; charset=UTF-8',
         },
       );
-      print(response.body);
+      debugPrint(response.body);
       httpErrorHandle(
         response: response,
         onSuccess: () async {
@@ -105,16 +106,24 @@ class AuthService extends GetxController {
           Get.find<UserProvider>().setUser(response.body);
           await prefs.setString(
               'x-auth-token', jsonDecode(response.body)['token']);
-          Get.to(
-            ProductPage(),
-          );
+
+          EasyLoading.showSuccess('WelCome to AMO YOU');
+
+          Get.to(const AdminScreen());
         },
       );
     } catch (e) {
-      Get.showSnackbar(GetSnackBar(
-        message: e.toString(),
-      ));
+      debugPrint(e.toString());
+      EasyLoading.showError('Something wrong. Try again!');
+      // Get.showSnackbar(GetSnackBar(
+      //   message: e.toString(),
+      // ));
     }
+  }
+
+  void signOut() async {
+    final userProvider = Get.put(UserProvider());
+    user.value = null;
   }
 
   Future getUser() async {
@@ -160,9 +169,7 @@ class AuthService extends GetxController {
     final url = Uri.parse('$googleUrl/auth/google-sign');
     http.Response response = await http.post(url,
         body: jsonEncode({'idToken': idToken}),
-        headers: <String, String>{
-          'Content-type': 'application/json; charset UTF-8'
-        });
+        headers: <String, String>{'Content-type': 'application/json'});
     final responseData = jsonDecode(response.body);
 
     token0 = responseData['token'];

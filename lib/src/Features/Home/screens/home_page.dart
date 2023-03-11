@@ -1,43 +1,266 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jsquare/src/Features/Product_pages/tv_products/tv_products.dart';
-import 'package:jsquare/src/GlobalWidgets/product_choose.dart';
-import 'package:jsquare/src/controller/icon_visible_controler.dart';
+import 'package:jsquare/src/Features/category/screens/category_product.dart';
+import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
-import '../../../GlobalWidgets/home_appbar.dart';
 import '../../../models/product_models.dart';
 
-enum Auth {
-  appliances,
-  furniture,
-}
-
 class IntroPage extends StatefulWidget {
-  const IntroPage({super.key});
+  static const String routeName = 'home-screen';
+  const IntroPage({Key? key}) : super(key: key);
 
   @override
   State<IntroPage> createState() => _IntroPageState();
 }
 
 class _IntroPageState extends State<IntroPage> {
-  late bool isSelected = true;
-  IconController iconController = Get.put(IconController());
-  final Auth _auth = Auth.appliances;
+  // TabController controller = TabController();
 
-  List<Widget> routes = [
-    const TVsPage(),
-    const TVsPage(),
-    const TVsPage(),
-    const TVsPage(),
+  /// List of Tab Bar Item
+  List<String> items = [
+    "Home",
+    "Explore",
   ];
+
+  /// List of body icon
+  // List<Widget> routes = [
+  //     TVsPage(),
+  //     TVsPage(),
+  //      TVsPage(),
+  //     TVsPage(),
+  // ];
+  int current = 0;
+  void navigateToDealScreen(String category) {
+    Get.toNamed(CategoryProduct.routeName, arguments: category);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.teal,
+      backgroundColor: Colors.deepPurple[100],
+
+      /// APPBAR
       appBar: appbar(),
-      body: Padding(
+
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        margin: const EdgeInsets.all(5),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              /// CUSTOM  
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: items.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (ctx, index) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                current = index;
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(5),
+                              width: MediaQuery.of(context).size.width * 0.47,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                color: current == index
+                                    ? Colors.black
+                                    : Colors.white,
+                                borderRadius: current == index
+                                    ? BorderRadius.circular(15)
+                                    : BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  items[index],
+                                  style: TextStyle(
+                                      color: current == index
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
+
+              /// MAIN BODY
+              current == 0
+                  ? SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        height: 900,
+                        child: GridView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3 / 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 4,
+                              mainAxisExtent: 370,
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            itemCount: productModel.length,
+                            itemBuilder: (ctx, i) {
+                              return GestureDetector(
+                                onTap: () {
+                                  navigateToDealScreen(
+                                    productModel[i].name.toString(),
+                                  );
+                                },
+                                child: SizedBox(
+                                  height: 90,
+                                  width: 90,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CachedNetImage(
+                                          imageUrl:
+                                              productModel[i].image.toString(),
+                                          height: 267,
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Text(
+                                        productModel[i].name.toString(),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Text(
+                                        productModel[i].description.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        height: 900,
+                        child: GridView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3 / 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 4,
+                              mainAxisExtent: 370,
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            itemCount: productModel.length,
+                            itemBuilder: (ctx, i) {
+                              return GestureDetector(
+                                onTap: () {
+                                  // Get.to(routes[i]);
+                                },
+                                child: SizedBox(
+                                  height: 90,
+                                  width: 90,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CachedNetImage(
+                                          imageUrl:
+                                              productModel[i].image.toString(),
+                                          height: 267,
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Text(
+                                        productModel[i].name.toString(),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Text(
+                                        productModel[i].description.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Screen extends StatefulWidget {
+  static const String routeName = 'screen';
+  String category;
+  Screen({super.key, required this.category});
+
+  @override
+  State<Screen> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<Screen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('pages')),
+      body: Center(
+        child: Text(widget.category),
+      ),
+    );
+  }
+}
+
+/*
+
+
+Padding(
         padding: const EdgeInsets.only(left: 2, right: 2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -46,175 +269,96 @@ class _IntroPageState extends State<IntroPage> {
             const SizedBox(
               height: 5,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(() => Product(
-                        name: 'Appliances',
-                        isSelected: iconController.isSelected.value,
-                        onTap: () {
-                          iconController.isSelected.value =
-                              !iconController.isSelected.value;
-                          // setState(() {
-                          //   isSelected = !isSelected;
-                          // });
-                        },
-                        color: iconController.isSelected.value
-                            ? Colors.black
-                            : Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.47,
-                        textColor: iconController.isSelected.value
-                            ? Colors.white
-                            : Colors.black,
-                      )),
-                  Obx(() => Product(
-                        name: 'Furniture',
-                        isSelected: iconController.isSelected.value,
-                        color: iconController.isSelected.value
-                            ? Colors.white
-                            : Colors.black,
-                        textColor: iconController.isSelected.value
-                            ? Colors.black
-                            : Colors.white,
-                        onTap: () {
-                          iconController.isSelected.value =
-                              !iconController.isSelected.value;
-                          // setState(() {
-                          //   isSelected = !isSelected;
-                          // });
-                        },
-                        width: MediaQuery.of(context).size.width * 0.47,
-                      ))
-                ],
-              ),
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ;
+                  }),
             ),
-            iconController.isSelected.value
-                ? Expanded(
-                    child: GridView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 3 / 2,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 4,
-                          mainAxisExtent: 370,
-                        ),
-                        padding: const EdgeInsets.all(10.0),
-                        itemCount: productModel.length,
-                        itemBuilder: (ctx, i) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(routes[i]);
-                            },
-                            child: SizedBox(
-                              height: 90,
-                              width: 90,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CachedNetImage(
-                                      imageUrl:
-                                          productModel[i].image.toString(),
-                                      height: 267,
-                                      width: MediaQuery.of(context).size.width),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Text(
-                                    productModel[i].name.toString(),
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  Text(
-                                    productModel[i].description.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                ],
-                              ),
+            Expanded(
+              child: GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 4,
+                    mainAxisExtent: 370,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  itemCount: productModel.length,
+                  itemBuilder: (ctx, i) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(routes[i]);
+                      },
+                      child: SizedBox(
+                        height: 90,
+                        width: 90,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CachedNetImage(
+                                imageUrl: productModel[i].image.toString(),
+                                height: 267,
+                                width: MediaQuery.of(context).size.width),
+                            const SizedBox(
+                              height: 12,
                             ),
-                          );
-                        }),
-                  )
-                : Obx(() => Expanded(
-                      child: GridView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 4,
-                            mainAxisExtent: 370,
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                          itemCount: productModel.length,
-                          itemBuilder: (ctx, i) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(routes[i]);
-                              },
-                              child: SizedBox(
-                                height: 90,
-                                width: 90,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    CachedNetImage(
-                                        imageUrl:
-                                            productModel[i].image.toString(),
-                                        height: 267,
-                                        width:
-                                            MediaQuery.of(context).size.width),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    Text(
-                                      productModel[i].name.toString(),
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      productModel[i].description.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    const Text('jack kfjajfowopwk'),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                    ))
+                            Text(
+                              productModel[i].name.toString(),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Text(
+                              productModel[i].description.toString(),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            ),
           ],
         ),
       ),
-    );
-  }
-}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // enum = auth auth  = sign up  = 
 /*
