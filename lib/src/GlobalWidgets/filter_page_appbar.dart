@@ -10,6 +10,7 @@ PreferredSizeWidget filerAppbar() {
         left: 4,
       ),
       child: Container(
+        color: Colors.pink,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

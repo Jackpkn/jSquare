@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class Product extends StatelessWidget {
@@ -7,13 +9,15 @@ class Product extends StatelessWidget {
   double? width;
   Color? color;
   Color? textColor;
-  Product(
-      {super.key,
-      required this.name,
-      required this.isSelected,
-      required this.onTap,
-      required this.width,
-      this.color, this.textColor});
+  Product({
+    super.key,
+    required this.name,
+    required this.isSelected,
+    required this.onTap,
+    required this.width,
+    this.color,
+    this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class Product extends StatelessWidget {
         // width: 170,
 
         width: width,
-        
+
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 1.3),
           borderRadius: BorderRadius.circular(10),

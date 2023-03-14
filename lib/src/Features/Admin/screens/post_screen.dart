@@ -48,6 +48,7 @@ class _PostScreenState extends State<PostScreen> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
+              itemCount: products!.length,
               itemBuilder: (context, index) {
                 final productData = products![index];
                 return Column(

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jsquare/src/models/product_models.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 
-import '../../controller/icon_visible_controler.dart';
+import '../../controller/icon_visible_controller.dart';
 import '../../GlobalWidgets/rating.dart';
 
 class Filter extends StatefulWidget {

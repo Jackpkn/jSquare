@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:jsquare/src/Features/Admin/controllers/controller.dart';
 import 'package:jsquare/src/Features/Admin/services/admin_auth_services.dart';
-import 'package:jsquare/src/Features/Admin/widgets/file_picker.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 
 import '../../../GlobalWidgets/textfromfield.dart';
+import '../widgets/file_picker.dart';
 
 class AdminAddProduct extends StatefulWidget {
   const AdminAddProduct({super.key});
@@ -25,9 +28,10 @@ class _AdminAddProductState extends State<AdminAddProduct> {
 
   TextEditingController quantityController = TextEditingController();
   List<File> images = [];
-  String category = 'TVs';
+  String category = 'TVs'; 
 
   final AdminController adminController = Get.put(AdminController());
+  Controllers controller = Get.put(Controllers());
   final addProductFormKey = GlobalKey<FormState>();
   // @override
   // void dispose() {
@@ -60,7 +64,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
         quantity: double.parse(
           quantityController.text,
         ),
-        category: category,
+        category: controller.category,
         images: images,
       );
     }
@@ -88,51 +92,51 @@ class _AdminAddProductState extends State<AdminAddProduct> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                // images.isNotEmpty
-                //     ? CarouselSlider(
-                //         items: images.map((x) {
-                //           return Builder(
-                //             builder: (context) => Image.file(
-                //               x,
-                //               fit: BoxFit.cover,
-                //               height: 200,
-                //             ),
-                //           );
-                //         }).toList(),
-                //         options: CarouselOptions(
-                //           viewportFraction: 1,
-                //           height: 200,
-                //         ),
-                //       )
-                //     : GestureDetector(
-                //         onTap: selectImages,
-                //         child: DottedBorder(
-                //           dashPattern: const [10, 4],
-                //           radius: const Radius.circular(10),
-                //           strokeWidth: 2,
-                //           borderType: BorderType.RRect,
-                //           child: Container(
-                //             alignment: Alignment.center,
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(10),
-                //             ),
-                //             height: 200,
-                //             width: MediaQuery.of(context).size.width,
-                //             child: const Column(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Icon(
-                //                   Icons.folder_open,
-                //                 ),
-                //                 SizedBox(
-                //                   height: 40,
-                //                 ),
-                //                 Text('Select product images')
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
+                images.isNotEmpty
+                    ? CarouselSlider(
+                        items: images.map((x) {
+                          return Builder(
+                            builder: (context) => Image.file(
+                              x,
+                              fit: BoxFit.cover,
+                              height: 200,
+                            ),
+                          );
+                        }).toList(),
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          height: 200,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: selectImages,
+                        child: DottedBorder(
+                          dashPattern: const [10, 4],
+                          radius: const Radius.circular(10),
+                          strokeWidth: 2,
+                          borderType: BorderType.RRect,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.folder_open,
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Text('Select product images')
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -169,19 +173,21 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                 SizedBox(
                   width: double.infinity,
                   child: DropdownButton(
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          category = value!;
-                        },
-                      );
-                    },
+                    // value: category,
                     value: category,
-                    items: productCategories.map(
-                      (String item) {
-                        return DropdownMenuItem(child: Text(item));
-                      },
-                    ).toList(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: productCategories.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    // onChanged: controller.setCategory,
+                    onChanged: (String? newVal) {
+                      setState(() {
+                        category = newVal!;
+                      });
+                    },
                   ),
                 ),
                 GestureDetector(

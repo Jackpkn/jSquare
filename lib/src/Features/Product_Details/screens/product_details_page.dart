@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/models/cart_model.dart';
 import 'package:jsquare/src/models/product_models.dart';
@@ -20,7 +22,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int currentIndex = 0;
-  final MyModel model = MyModel();
+   
   final PageController controller = PageController();
 
   @override
@@ -35,40 +37,38 @@ class _ProductDetailsState extends State<ProductDetails> {
               top: 3,
               left: 4,
             ),
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.menu),
-                        iconSize: 34,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search),
-                        iconSize: 34,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        iconSize: 34,
-                        icon: const Icon(Icons.shopping_cart),
-                      ),
-                      const CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.black,
-                        child: Text('J'),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.menu),
+                      iconSize: 34,
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search),
+                      iconSize: 34,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 34,
+                      icon: const Icon(Icons.shopping_cart),
+                    ),
+                    const CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Colors.black,
+                      child: Text('J'),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -342,7 +342,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       decoration: const BoxDecoration(color: Colors.green),
                       height: 19,
                       width: 35,
-                      child: const Text('5★'),
+                      child: const Text('5 ★'),
                     ),
                     const SizedBox(
                       width: 8,
@@ -359,7 +359,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 7,
                 ),
                 const Text(
-                  'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all Wikipedias belong to the English-language edition; this share is d',
+                  'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all   belong to the English-language edition; this share is d',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -407,12 +407,5 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 }
 
-class MyModel {
-  Map<String, String> jack = {
-    'jacl': 'pawan',
-    'pawan': 'nd',
-    'N': 'nd',
-    'J': 'nd',
-  };
-}
+ 
 /// ? List.

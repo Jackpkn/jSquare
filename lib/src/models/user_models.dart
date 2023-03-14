@@ -1,12 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'kycmodel.dart';
+
 class User {
   final String id;
   final String name;
   final String email;
   final String password;
-  final String address;
+  // List<KycModel> address;
+  List<KycModel>? address;
+  // final String address;
   final String type;
   final String token;
   final List<dynamic> cart;
@@ -41,7 +45,14 @@ class User {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       password: map['password'] ?? '',
-      address: map['address'] ?? '',
+      // address: map['address'] ?? '',
+      address: map['ratings'] != null
+          ? List<KycModel>.from(
+              map['ratings']?.map(
+                (x) => KycModel.fromMap(x),
+              ),
+            )
+          : null,
       type: map['type'] ?? '',
       token: map['token'] ?? '',
       cart: List<Map<String, dynamic>>.from(
@@ -61,7 +72,7 @@ class User {
     String? name,
     String? email,
     String? password,
-    String? address,
+    List<KycModel>? address,
     String? type,
     String? token,
     List<dynamic>? cart,

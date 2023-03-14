@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,7 @@ import 'package:jsquare/src/Features/auth/Auth_controller/logincontroller.dart';
 import 'package:jsquare/src/Features/auth/services/auth_services.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 
-import '../../../controller/icon_visible_controler.dart';
+import '../../../controller/icon_visible_controller.dart';
 import '../../../GlobalWidgets/textfromfield.dart';
 
 class LoginScreen extends StatelessWidget {

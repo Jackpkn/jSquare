@@ -9,7 +9,7 @@ import 'package:jsquare/src/GlobalWidgets/textfromfield.dart';
 import 'package:jsquare/src/component/extension.dart';
 
 import '../../../GlobalWidgets/container.dart';
-import '../../../controller/icon_visible_controler.dart';
+import '../../../controller/icon_visible_controller.dart';
 import '../services/auth_services.dart';
 
 class SignUpScreen extends StatelessWidget {

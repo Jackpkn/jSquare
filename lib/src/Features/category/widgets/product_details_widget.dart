@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/GlobalWidgets/rating.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 import '../../../GlobalWidgets/container.dart';
+import '../../../models/productmodels.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   String? productImage;
@@ -16,15 +19,21 @@ class ProductDetailsWidget extends StatefulWidget {
       this.productPrice,
       this.onPressed});
 
+
   @override
   State<ProductDetailsWidget> createState() => _ProductDetailsWidgetState();
 }
 
 class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
+    List<Product>? productList;
+   
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 3, right: 3, bottom: 7),
+      padding: const EdgeInsets.only(left: 3, right: 3, bottom: 9, top: 9),
       child: SizedBox(
         height: 190,
         child: Row(
@@ -34,14 +43,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               child: CachedNetImage(
                 imageUrl: widget.productImage.toString(),
                 height: 190,
-                width: MediaQuery.of(context).size.width * 0.482,
+                width: MediaQuery.of(context).size.width * 0.48,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: SizedBox(
                 height: 190,
-                width: MediaQuery.of(context).size.width * 0.482,
+                width: MediaQuery.of(context).size.width * 0.48,
                 child: Stack(
                   children: [
                     Align(
@@ -78,7 +87,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       top: 128,
                       left: 5,
                       child: Text(
-                        '₹${widget.productPrice} per month',
+                        '₹ ${widget.productPrice} per month',
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),

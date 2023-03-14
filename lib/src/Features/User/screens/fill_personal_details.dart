@@ -296,7 +296,8 @@ class _DetailFillPageState extends State<DetailFillPage> {
                       ),
                   const SizedBox(
                     height: 20,
-                  )
+                  ),
+                 
                 ],
               ),
             ),

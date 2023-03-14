@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:jsquare/src/Features/Home/screens/home_page.dart';
-import 'package:jsquare/src/Features/category/screens/category_product.dart';
-import 'package:jsquare/src/Features/auth/screens/fotgot_screen.dart';
+import 'package:jsquare/src/Features/User/screens/profile_page.dart';
+import 'package:jsquare/src/Features/User/screens/myfavourites.dart';
+import 'package:jsquare/src/Features/User/screens/ratingandreviews.dart';
+import 'package:jsquare/src/Features/User/screens/recommended_page.dart';
+import 'package:jsquare/src/Features/User/screens/your_orders.dart';
+import 'package:jsquare/src/Features/auth/screens/forgot_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/login_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/opt_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/signup_screen.dart';
+import 'package:jsquare/src/Features/category/screens/category_product.dart';
 
 Route<dynamic> generateRoutes(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -28,14 +34,28 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => const OtpScreen(),
       );
-    case Screen.routeName:
-      final category = routeSettings.arguments as String;
+
+    case ProfilePage.routeName:
       return MaterialPageRoute(
-        builder: (_) => Screen(
-          category: category,
-        ),
+        builder: (_) => ProfilePage(),
       );
-      case CategoryProduct.routeName:
+    case OrdersPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const OrdersPage(),
+      );
+    case RecommendedPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const RecommendedPage(),
+      );
+    case RatingAndReviews.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const RatingAndReviews(),
+      );
+    case FavouritesPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const FavouritesPage(),
+      );
+    case CategoryProduct.routeName:
       final category = routeSettings.arguments as String;
       return MaterialPageRoute(
         builder: (_) => CategoryProduct(

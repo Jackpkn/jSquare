@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/constants/httperror_handling.dart';
 import 'package:jsquare/src/models/productmodels.dart';
@@ -12,12 +13,8 @@ import 'package:http/http.dart' as http;
 
 class AdminController extends GetxController {
 //! upload api
-  @override
-//   void onInit() {
-// //! this function which is called when the  it is similar to the initstate called
-//  //! ther is another function which is similar to the oncloase
-//     super.onInit();
-//   }
+  
+ 
 
   Future sellProduct({
     required String name,
@@ -62,16 +59,20 @@ class AdminController extends GetxController {
       httpErrorHandle(
         response: response,
         onSuccess: () {
-          Get.showSnackbar(
-            const GetSnackBar(
-              message: 'Product added successfully',
-            ),
-          );
+          EasyLoading.showSuccess('Product added successfully');
+          // Get.showSnackbar(
+          //   const GetSnackBar(
+          //     message: 'Product added successfully',
+          //   ),
+          // );
           Get.back();
         },
       );
     } catch (e) {
+      EasyLoading.showError('Something wrong. Try again!');
       debugPrint(e.toString());
+    }finally{
+      EasyLoading.dismiss();
     }
   }
 //

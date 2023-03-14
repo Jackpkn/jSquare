@@ -32,7 +32,7 @@ class AuthService extends GetxController {
         name: name,
         email: email,
         password: password,
-        address: '',
+        address: [],
         type: '',
         token: '',
         cart: [],
@@ -83,7 +83,7 @@ class AuthService extends GetxController {
         status: 'Loading...',
         dismissOnTap: false,
       );
-      Map<String, dynamic> token;
+      // Map<String, dynamic> token;
       const loginUrl = 'http://10.2.100.41:3000/auth/login';
       final url = Uri.parse(loginUrl);
       http.Response response = await http.post(
@@ -122,8 +122,10 @@ class AuthService extends GetxController {
   }
 
   void signOut() async {
-    final userProvider = Get.put(UserProvider());
-    user.value = null;
+   
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('x-auth-token', '');
+   
   }
 
   Future getUser() async {

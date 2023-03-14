@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:jsquare/src/GlobalWidgets/product_choose.dart';
 
@@ -20,6 +22,7 @@ class SelectedPage extends StatelessWidget {
               left: 4,
             ),
             child: Container(
+              color: Colors.pink,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -94,9 +97,7 @@ class SelectedPage extends StatelessWidget {
                   itemCount: productModel.length,
                   itemBuilder: (ctx, i) {
                     return GestureDetector(
-                      onTap: () {
-                        
-                      },
+                      onTap: () {},
                       child: SizedBox(
                         height: 90,
                         width: 90,

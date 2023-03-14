@@ -5,6 +5,7 @@ import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 import '../../../models/product_models.dart';
+import 'drawer_screen.dart';
 
 class IntroPage extends StatefulWidget {
   static const String routeName = 'home-screen';
@@ -38,7 +39,9 @@ class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.deepPurple[100],
+      drawer: const HomeDrawer(),
 
       /// APPBAR
       appBar: appbar(),
@@ -51,7 +54,7 @@ class _IntroPageState extends State<IntroPage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              /// CUSTOM  
+              /// CUSTOM
               SizedBox(
                 width: double.infinity,
                 height: 60,
@@ -236,26 +239,8 @@ class _IntroPageState extends State<IntroPage> {
   }
 }
 
-class Screen extends StatefulWidget {
-  static const String routeName = 'screen';
-  String category;
-  Screen({super.key, required this.category});
-
-  @override
-  State<Screen> createState() => _ScreenState();
-}
-
-class _ScreenState extends State<Screen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('pages')),
-      body: Center(
-        child: Text(widget.category),
-      ),
-    );
-  }
-}
+ 
+ 
 
 /*
 
@@ -339,28 +324,7 @@ Padding(
       ),
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// enum = auth auth  = sign up  = 
+// enum = auth auth  = sign up  =
 /*
  Expanded(
               child: GridView.builder(

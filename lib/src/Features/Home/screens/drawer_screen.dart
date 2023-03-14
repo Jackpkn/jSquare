@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Drawer(
+      width: double.infinity,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.ad_units)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
               alignment: Alignment.topLeft,
               color: Colors.white,
-              height: 80,
+              height: 90,
+              padding: const EdgeInsets.only(top: 16, left: 10),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -29,55 +27,167 @@ class HomeDrawer extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 24,
                     ),
                   ),
                   CircleAvatar(
-                    radius: 15,
+                    radius: 18,
                   )
                 ],
               ),
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Your Account'),
+          ListTile(
+            onTap: () {
+              Get.toNamed('profile-page');
+            },
+            leading: const Icon(
+              Icons.person,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Your Profile',
+              style: TextStyle(
+                color: Color.fromRGBO(0, 0, 0, 1),
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.ondemand_video),
-            title: Text('Your Orders'),
+          ListTile(
+            onTap: () {
+              Get.toNamed('orders-page');
+            },
+            leading: const Icon(
+              Icons.five_k_plus,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Your Orders',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text('Your Favourites'),
+          ListTile(
+            onTap: () {
+              Get.toNamed('favourites-page');
+            },
+            leading: const Icon(
+              Icons.favorite,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Your Favourites',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.recommend_rounded),
-            title: Text('Your Recommedations'),
+          ListTile(
+            onTap: () {
+              Get.toNamed('recommended-page');
+            },
+            leading: const Icon(
+              Icons.recommend_rounded,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(' Recommendations for you',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                )),
           ),
-          const ListTile(
-            leading: Icon(Icons.transcribe_sharp),
-            title: Text('Your Transactions'),
+          ListTile(
+            onTap: () {
+              Get.toNamed('rating-reviews-page');
+            },
+            leading: const Icon(
+              Icons.star,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Your Rating and Reviews',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.star),
-            title: Text('Your Rating and Reviews'),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.policy,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Term and Conditions',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.policy),
-            title: Text('Term and Conditions'),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.question_mark,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Frequently Asked Questions',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.question_mark),
-            title: Text('Frequently Asked Questions'),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.settings,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Settings',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.logout,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Logout',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
         ],
       ),

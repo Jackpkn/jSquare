@@ -1,7 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/Product_Details/screens/product_details_page.dart';
-import 'package:jsquare/src/Features/Product_Details/widgets/product_details_widget.dart';
+import 'package:jsquare/src/Features/category/services/category_services.dart';
+import 'package:jsquare/src/Features/category/widgets/product_details_widget.dart';
+import 'package:jsquare/src/models/productmodels.dart';
 
 import '../../../models/tv_models.dart';
 
@@ -13,8 +17,25 @@ class CategoryProduct extends StatefulWidget {
   @override
   State<CategoryProduct> createState() => _CategoryProductState();
 }
- 
+
 class _CategoryProductState extends State<CategoryProduct> {
+  List<Product>? productList;
+  CategoryServices categoryServices = CategoryServices();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategoryProduct();
+  }
+
+  fetchCategoryProduct() async {
+    productList =
+        await categoryServices.fetchCategoryProduct(category: widget.category);
+    setState(
+      () {},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +66,11 @@ class _CategoryProductState extends State<CategoryProduct> {
                   },
                 );
               },
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
+// flutter Node js  Authontication Second 

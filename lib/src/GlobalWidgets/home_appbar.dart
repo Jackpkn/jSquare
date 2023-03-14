@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:jsquare/src/Features/Home/screens/drawer_screen.dart';
 
 PreferredSizeWidget appbar() {
   return AppBar(
@@ -12,25 +10,32 @@ PreferredSizeWidget appbar() {
         left: 4,
       ),
       child: Container(
+        color: Colors.pink,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Get.to(const HomeDrawer(),
-                        transition: Transition.leftToRight);
-                  },
-                  icon: const Icon(Icons.menu),
-                  iconSize: 28,
-                  color: const Color.fromRGBO(0, 0, 0, 1),
+                // IconButton(
+                //   onPressed: () {
+                //     // Get.to(const HomeDrawer(),
+                //         // transition: Transition.leftToRight);
+                //   },
+                //   icon: const Icon(Icons.menu),
+                //   iconSize: 28,
+                //   color: const Color.fromRGBO(0, 0, 0, 1),
+                // ),
+                const SizedBox(
+                  width: 40,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                  iconSize: 28,
-                  color: const Color.fromRGBO(0, 0, 0, 1),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                    iconSize: 28,
+                    color: const Color.fromRGBO(0, 0, 0, 1),
+                  ),
                 ),
               ],
             ),
