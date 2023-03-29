@@ -32,7 +32,7 @@ class _CategoryProductState extends State<CategoryProduct> {
   void initState() {
     super.initState();
     fetchCategoryProducts();
-    double totalRating = 0;
+    // double totalRating = 0;
     // for (int i = 0; i < productList!.rating!.length; i++) {
     //   totalRating += data!.rating![i].star;
     //   if (data!.rating![i].userId == userProvider.user.id) {

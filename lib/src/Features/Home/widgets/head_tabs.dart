@@ -48,6 +48,7 @@ class HeadTabs extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
+                        color: Colors.amber,
                         child: const Text(
                           "Furniture",
                           textAlign: TextAlign.center,
@@ -90,6 +91,7 @@ class HeadTabs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
+                      color: Colors.amber,
                       child: const Text(
                         "Appliances",
                         textAlign: TextAlign.center,
