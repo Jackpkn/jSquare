@@ -1,11 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
- 
- 
+import 'dart:convert'; 
 import 'package:jsquare/src/models/rating.dart';
-
-
 class Product {
   final String name;
   final String description;
@@ -15,6 +10,7 @@ class Product {
   final double price;
   final String? id;
   final List<Rating>? rating;
+  final String? totalRating;
   Product({
     required this.name,
     required this.description,
@@ -22,8 +18,9 @@ class Product {
     required this.images,
     required this.category,
     required this.price,
-    this.id,
-    this.rating,
+     this.id,
+     this.rating,
+     this.totalRating
   });
 
   Map<String, dynamic> toMap() {
@@ -36,6 +33,7 @@ class Product {
       'price': price,
       'id': id,
       'rating': rating,
+      'totalRating': totalRating
     };
   }
 
@@ -47,7 +45,7 @@ class Product {
       images: List<String>.from(map['images']),
       category: map['category'] ?? '',
       price: map['price']?.toDouble() ?? 0.0,
-      id: map['_id'],
+      id: map['_id'] ,
       rating: map['ratings'] != null
           ? List<Rating>.from(
               map['ratings']?.map(
@@ -55,6 +53,7 @@ class Product {
               ),
             )
           : null,
+          totalRating: map['totalRating']??''
     );
   }
 

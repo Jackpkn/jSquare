@@ -8,6 +8,8 @@ import 'package:jsquare/src/providers/user_provider.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 
+
+
 class CartProduct extends StatefulWidget {
   int index;
   CartProduct({
@@ -30,51 +32,60 @@ class _CartProductState extends State<CartProduct> {
     userServices.decreaseQuantity(product: product);
   }
 
+  void deleteProduct(Product product) {
+    userServices.deleteAddToCartProduct(product: product);
+  }
+
   @override
   Widget build(BuildContext context) {
     final productCart = userProvider.user.cart[widget.index];
     final product = Product.fromMap(productCart['product']);
+
     final quantity = productCart['quantity'];
+    
     return Column(
       children: [
+        Text("product id ${product.id.toString()}", style: const TextStyle(fontWeight: FontWeight.bold, ),),
+        const SizedBox(height: 7,),
         Row(
           children: [
             SizedBox(
               height: 166,
-              width: MediaQuery.of(context).size.width * 0.47,
+              // width: MediaQuery.of(context).size.width * 0.47,
               child: CachedNetImage(
-                // imageUrl:
-                //     'https://cdn.pixabay.com/photo/2012/04/12/19/06/fridge-30212_1280.png',
-                imageUrl: product.images[0],
+                
+                imageUrl: "product.images[0]",
                 height: 166,
                 width: MediaQuery.of(context).size.width * 0.47,
               ),
             ),
             Container(
               height: 166,
-              color: Colors.pink,
-              width: MediaQuery.of(context).size.width * 0.48,
+              // color: Colors.pink,
+                width:
+                                      MediaQuery.of(context).size.width * 0.48,
+              // width: MediaQuery.of(context).size.width * 0.48,
               padding: const EdgeInsets.all(0),
               child: Stack(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      // 'Samsung 55 Inches 4k Neo Series Ultra HD Smart LED TV',
-                      product.name,
-                      style: const TextStyle(fontSize: 18),
+                  Text(
+                    
+                    // 'Samsung 55 Inches 4k Neo Series Ultra HD Smart LED TV',
+                    product.description,
+                    // overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 18,
+                    
                     ),
                   ),
-                    Align(
+                  Align(
                     alignment: Alignment.center,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        // '₹1,198',
-                        "₹ ${product.price.toString()}"
-                      ),
+                          // '₹1,198',
+                          "₹ ${product.price.toString()}"),
                     ),
                   ),
                   const SizedBox(
@@ -82,22 +93,10 @@ class _CartProductState extends State<CartProduct> {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Stack(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Positioned(
-                          left: 0,
-                          child: IconButton(
-                            onPressed: () {
-
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                            ),
-                          ),
-                        ),
-
                         // GlobalContainer(
                         //   height: 30,
                         //   width: 112,
@@ -157,6 +156,15 @@ class _CartProductState extends State<CartProduct> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              IconButton(
+                                onPressed: () {
+                                  deleteProduct(product);
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  size: 23,
+                                ),
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -164,19 +172,19 @@ class _CartProductState extends State<CartProduct> {
                                     width: 1.5,
                                   ),
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
+                                  // color: Colors.white,
                                 ),
                                 child: Row(
                                   children: [
                                     InkWell(
-                                       onTap: () => decreaseQuantity(product),
+                                      // decrease quantity
+                                      onTap: () => decreaseQuantity(product),
                                       child: Container(
                                         width: 35,
-                                        height: 24,
+                                        height: 26,
                                         alignment: Alignment.center,
                                         child: const Icon(
                                           Icons.remove,
-                                        
                                         ),
                                       ),
                                     ),
@@ -186,14 +194,15 @@ class _CartProductState extends State<CartProduct> {
                                           color: Colors.black12,
                                           width: 1.5,
                                         ),
-                                        color: Colors.white,
+                                        // color: Colors.white,
                                         borderRadius: BorderRadius.circular(0),
                                       ),
                                       child: Container(
                                         width: 35,
-                                        height: 29,
+                                        height: 26,
                                         alignment: Alignment.center,
-                                        child:   Text(
+                                        child: Text(
+                                          // '',
                                           quantity.toString(),
                                           style: const TextStyle(
                                             color: Colors.black,
@@ -202,11 +211,11 @@ class _CartProductState extends State<CartProduct> {
                                       ),
                                     ),
                                     InkWell(
-                                      // onTap: () => increaseQuantity(product),
-                                        onTap: () => increaseQuantity(product),
+                                      // increase the quantity
+                                      onTap: () => increaseQuantity(product),
                                       child: Container(
                                         width: 35,
-                                        height: 29,
+                                     height: 26,
                                         alignment: Alignment.center,
                                         child: const Icon(
                                           Icons.add,

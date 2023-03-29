@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:jsquare/src/Features/Home/screens/home_page.dart';
+import 'package:jsquare/src/Features/Product_Details/screens/product_details_page.dart';
+import 'package:jsquare/src/Features/Address/screens/checkout_page.dart';
+import 'package:jsquare/src/Features/User/screens/my_cart_page.dart';
 import 'package:jsquare/src/Features/User/screens/profile_page.dart';
 import 'package:jsquare/src/Features/User/screens/myfavourites.dart';
 import 'package:jsquare/src/Features/User/screens/ratingandreviews.dart';
 import 'package:jsquare/src/Features/User/screens/recommended_page.dart';
-import 'package:jsquare/src/Features/User/screens/your_orders.dart';
 import 'package:jsquare/src/Features/auth/screens/forgot_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/login_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/opt_screen.dart';
 import 'package:jsquare/src/Features/auth/screens/signup_screen.dart';
-import 'package:jsquare/src/Features/category/screens/category_product.dart';
+import 'package:jsquare/src/models/productmodels.dart';
+
+import '../Features/category/screens/category_product.dart';
 
 Route<dynamic> generateRoutes(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -39,10 +43,14 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => ProfilePage(),
       );
-    case OrdersPage.routeName:
-      return MaterialPageRoute(
-        builder: (_) => const OrdersPage(),
-      );
+
+    // case OrdersPage.routeName:
+    //   final order = routeSettings.arguments as Order;
+    //   return MaterialPageRoute(
+    //     builder: (_) => OrdersPage(
+    //       order: order,
+    //     ),
+    //   );
     case RecommendedPage.routeName:
       return MaterialPageRoute(
         builder: (_) => const RecommendedPage(),
@@ -56,11 +64,33 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
         builder: (_) => const FavouritesPage(),
       );
     case CategoryProduct.routeName:
-      final category = routeSettings.arguments as String;
+      final category = routeSettings.arguments;
       return MaterialPageRoute(
         builder: (_) => CategoryProduct(
-          category: category,
+          category: category as String,
         ),
+      );
+    case ProductDetails.routeName:
+      final data = routeSettings.arguments as Product;
+      return MaterialPageRoute(
+        builder: (_) => ProductDetails(
+          data: data,
+        ),
+      );
+    // case RatingScreen.routeName:
+    //   final data = routeSettings.arguments ;
+    //   return MaterialPageRoute(
+    //     builder: (_) => RatingScreen(
+    //       product: data,
+    //     ),
+    //   );
+    case CheckoutPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const CheckoutPage(),
+      );
+    case MyCart.routeName:
+      return MaterialPageRoute(
+        builder: (_) => MyCart(),
       );
     default:
       return MaterialPageRoute(

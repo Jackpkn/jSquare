@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/Admin/controllers/controller.dart';
 import 'package:jsquare/src/Features/Admin/services/admin_auth_services.dart';
@@ -28,7 +27,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
 
   TextEditingController quantityController = TextEditingController();
   List<File> images = [];
-  String category = 'TVs'; 
+  String category = 'TVs';
 
   final AdminController adminController = Get.put(AdminController());
   Controllers controller = Get.put(Controllers());
@@ -45,6 +44,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
   List<String> productCategories = [
     'TVs',
     'Refrigerators',
+    'fridges',
     'Washing Machines',
     'Microwave Ovens',
     'Water Purifiers',
@@ -167,6 +167,13 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                   obscureText: false,
                   maxLines: 1,
                 ),
+                TextFormInput(
+                  controller: priceController,
+                  hintText: 'Price',
+                  labelText: 'Price',
+                  obscureText: false,
+                  maxLines: 1,
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -190,14 +197,23 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                     },
                   ),
                 ),
+                 
                 GestureDetector(
                   onTap: () {
-                    EasyLoading.show(
-                      status: 'Loading...',
-                      dismissOnTap: false,
-                    );
-                    sellProduct();
-                    EasyLoading.dismiss();
+                    
+                    if (addProductFormKey.currentState!.validate()) {
+                      adminController.sellProduct(
+                        name: productNameController.text,
+                        description: descriptionController.text,
+                        price: double.parse(priceController.text),
+                        quantity: double.parse(
+                          quantityController.text,
+                        ),
+                        category: controller.category,
+                        images: images,
+                      );
+                    }
+                     
                   },
                   child: const GlobalContainer(
                     height: 40,

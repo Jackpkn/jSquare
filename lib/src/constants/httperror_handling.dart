@@ -12,8 +12,13 @@ void httpErrorHandle({
     case 200:
       onSuccess();
       break;
+    case 404:
+      EasyLoading.showError(jsonDecode(response.body)['msg']);
+      debugPrint(jsonDecode(response.body)['msg']);
+      break;
     case 400:
       EasyLoading.showError(jsonDecode(response.body)['msg']);
+      debugPrint(jsonDecode(response.body)['msg']);
       // Get.showSnackbar(
 
       //   GetSnackBar(
@@ -25,8 +30,10 @@ void httpErrorHandle({
       EasyLoading.showError(jsonDecode(response.body)['error']);
       // GetSnackBar(
       //   message: jsonDecode(response.body)['error'],
+      debugPrint(jsonDecode(response.body)['error']);
       // );
       break;
+
     default:
       EasyLoading.showError(jsonDecode(response.body));
     // Get.showSnackbar(

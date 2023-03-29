@@ -35,12 +35,12 @@ class SignUpController extends GetxController {
     String mobileNumber,
     String password,
   ) {
-    final a = Get.find<AuthService>();
-    a.signUp(
-      name: name,
-      email: email,
-      password: password,
-    );
+    // final a = Get.find<AuthService>();
+    // a.signUp(
+    //   name: name,
+    //   email: email,
+    //   password: password,
+    // );
   }
 }
 

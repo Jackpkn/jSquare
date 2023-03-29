@@ -91,32 +91,41 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                // TextFormInput(
-                //   maxLines: 1,
-                //   obscureText: true,
-                //   hintText: 'Enter your Name',
-                //   labelText: 'UserName',
-                //   validator: (String? value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "This field can't be empty";
-                //     }
-                //     return null;
-                //   },
-                //   controller: userNameController,
-                // ),
+                TextFormInput(
+                  maxLines: 1,
+                  obscureText: true,
+                  hintText: 'Enter your Name',
+                  labelText: 'UserName',
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "This field can't be empty";
+                    }
+                    return null;
+                  },
+                  controller: userNameController,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
-                // TextFormInput(
-                //   maxLines: 1,
-                //   obscureText: true,
-                //   hintText: 'Enter your mobile number',
-                //   labelText: 'Mobile Number',
-                //   controller: mobileNameController,
-                // ),
-                // const SizedBox(
-                //   height: 8,
-                // ),
+                TextFormInput(
+                  maxLines: 1,
+                  obscureText: false,
+                  hintText: 'Enter your mobile number',
+                  labelText: 'Mobile Number',
+                  controller: mobileNameController,
+                   validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "This field can't be empty";
+                    } 
+                    // else if (!value.isValidPhone) {
+                    //   return "Please enter valid phone";
+                    // }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Obx(
                   () => TextFormInput(
                     obscureText: Get.find<IconController>().isVisible.value,
@@ -225,7 +234,10 @@ class SignUpScreen extends StatelessWidget {
                       authService.signUp(
                           name: firstNameController.text.trim(),
                           password: passwordNameController.text.trim(),
-                          email: emailNameController.text.trim());
+                          userName: userNameController.text.trim(),
+                          email: emailNameController.text.trim(),
+                           phone: int.parse(mobileNameController.text),
+                          );
                     }
                     // EasyLoading.dismiss();
                     // if (auth == null) {

@@ -1,16 +1,23 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jsquare/src/Features/Product_Details/widgets/rating_page.dart';
+import 'package:jsquare/src/Features/category/services/category_services.dart';
 import 'package:jsquare/src/models/cart_model.dart';
 import 'package:jsquare/src/models/product_models.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:jsquare/src/GlobalWidgets/rating.dart';
+import 'package:jsquare/src/providers/user_provider.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
+import '../../../models/productmodels.dart';
 import '../../../models/tv_models.dart';
+import '../../User/Services/user_services.dart';
 
 class ProductDetails extends StatefulWidget {
-  TvModel data;
+  static const String routeName = 'productDetails';
+
+  Product data;
   ProductDetails({
     super.key,
     required this.data,
@@ -22,8 +29,33 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int currentIndex = 0;
-   
+  CategoryServices categoryServices = CategoryServices();
   final PageController controller = PageController();
+  double avgRating = 0;
+  double myRating = 0;
+  UserProvider userProvider = Get.put(UserProvider());
+  void addToCart() {
+    categoryServices.addToCart(
+      product: widget.data,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    double totalRating = 0;
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      totalRating += widget.data.rating![i].star;
+      if (widget.data.rating![i].userId == userProvider.user.id) {
+        myRating = widget.data.rating![i].star;
+      }
+    }
+    if (totalRating != 0) {
+      avgRating = totalRating / widget.data.rating!.length;
+    }
+  }
+
+  UserServices userService = Get.put(UserServices());
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +121,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 280,
                   width: double.infinity,
                   child: PageView.builder(
-                      itemCount: tvModel.length,
+                      itemCount: widget.data.images.length,
+
+                      // itemCount: ,
                       onPageChanged: (value) {
                         setState(() {
                           currentIndex = value;
@@ -98,7 +132,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       scrollDirection: Axis.horizontal,
                       controller: controller,
                       itemBuilder: (context, index) {
-                        TvModel item = tvModel[index];
+                        // TvModel item = tvModel[index];
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 6),
@@ -110,21 +145,35 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: CachedNetImage(
                                   height: 250,
                                   width: double.infinity,
-                                  imageUrl: item.images.toString(),
+                                  imageUrl: widget.data.images[index],
+                                  // imageUrl: widget.data.images[index],
                                 ),
                               ),
                               Positioned(
                                 right: 5,
                                 top: 6,
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: const GlobalContainer(
-                                    height: 32,
-                                    width: 32,
-                                    radius: 50,
-                                    borderWidth: 1.3,
-                                    child: Icon(
-                                      Icons.heart_broken_sharp,
+                                child: Obx(
+                                  () => GestureDetector(
+                                    onTap: () {
+                                      userService.wishProduct(
+                                        product: widget.data,
+                                      );
+
+                                      userService.toggleChange();
+                                    },
+                                    child: GlobalContainer(
+                                      height: 32,
+                                      width: 32,
+                                      radius: 50,
+                                      borderWidth: 1.3,
+                                      child: Icon(
+                                        userService.isFavourite.value
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: userService.isFavourite.value
+                                            ? Colors.white
+                                            : Colors.red,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -153,7 +202,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.data.name.toString(),
+                      widget.data.description.toString(),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -165,20 +214,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 9,
                 ),
-                const Row(
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('4.0'),
-                    SizedBox(
+                        Text(avgRating.round().toString()),
+                    const SizedBox(
                       width: 4,
                     ),
                     RatingButton(
-                      rating: 5,
+                      rating:avgRating ,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Text('(1,499)'),
+                    const Text('(1,499)'),
                   ],
                 ),
                 const SizedBox(
@@ -199,19 +248,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GlobalContainer(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    radius: 30,
-                    borderWidth: 1.2,
-                    color: Colors.white,
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                  child: GestureDetector(
+                    onTap: () {
+                      addToCart();
+                    },
+                    child: GlobalContainer(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width,
+                      radius: 30,
+                      borderWidth: 1.2,
+                      color: Colors.white,
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -276,8 +330,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 width: MediaQuery.of(context).size.width * 0.36,
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child:
-                                        Text(tvModel[index].productDetails.toString())),
+                                    child: Text(tvModel[index]
+                                        .productDetails
+                                        .toString())),
                               ),
                               Expanded(
                                 child: Container(
@@ -294,25 +349,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                         );
                       }),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Ratings & Reviews',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      GlobalContainer(
-                        height: 30,
-                        width: 120,
-                        borderWidth: 1.0,
-                        radius: 10,
-                        child: Text(
-                          'Rate product',
-                          style: TextStyle(
-                            fontSize: 16,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(RatingScreen(product: widget.data));
+                        },
+                        child: const GlobalContainer(
+                          height: 30,
+                          width: 120,
+                          borderWidth: 1.0,
+                          radius: 10,
+                          child: Text(
+                            'Rate product',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),

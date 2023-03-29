@@ -4,6 +4,7 @@ import 'package:jsquare/src/Features/Admin/screens/order_screen.dart';
 import 'package:jsquare/src/controller/icon_visible_controller.dart';
 
 import 'add_admin_product_screen.dart';
+import 'add_category_product.dart';
 import 'post_screen.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 PostScreen(),
                 AdminAddProduct(),
                 OrderScreen(),
+                AddCategoryProduct()
               ],
             ),
           ),
@@ -97,6 +99,23 @@ class _AdminScreenState extends State<AdminScreen> {
                           controller.tabIndex.value == 0 ? 10 : 8),
                       border: Border.all(
                           color: controller.tabIndex.value == 2
+                              ? Colors.pink
+                              : Colors.orangeAccent),
+                    ),
+                    child: const Icon(
+                      Icons.all_inbox_outlined,
+                    ),
+                  ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    width: bottomBarWidth,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          controller.tabIndex.value == 0 ? 10 : 8),
+                      border: Border.all(
+                          color: controller.tabIndex.value == 3
                               ? Colors.pink
                               : Colors.orangeAccent),
                     ),

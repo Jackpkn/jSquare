@@ -11,22 +11,21 @@ import 'package:jsquare/src/providers/user_provider.dart';
 
 import 'package:http/http.dart' as http;
 
+final userProvider = Get.put(UserProvider());
+
 class AdminController extends GetxController {
 //! upload api
-  
- 
 
   Future sellProduct({
     required String name,
-    required description,
+    required String description,
     required double price,
     required double quantity,
     required String category,
     required List<File> images,
   }) async {
-    final userProvider = Get.put(UserProvider());
     try {
-      final cloudinary = CloudinaryPublic('denfgaxvg', 'uszbstnu');
+      final cloudinary = CloudinaryPublic('dznyxrzc6', 'nbscssgu');
       List<String> imageUrls = [];
       for (int i = 0; i < images.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(
@@ -46,7 +45,7 @@ class AdminController extends GetxController {
         category: category,
         price: price,
       );
-      const String uploadUrl = 'http://10.2.100.41:/admin/add-product';
+      const String uploadUrl = 'http://localhost:3000/admin/add-product';
 
       http.Response response = await http.post(
         Uri.parse(uploadUrl),
@@ -65,21 +64,18 @@ class AdminController extends GetxController {
           //     message: 'Product added successfully',
           //   ),
           // );
-          Get.back();
         },
       );
     } catch (e) {
       EasyLoading.showError('Something wrong. Try again!');
       debugPrint(e.toString());
-    }finally{
-      EasyLoading.dismiss();
     }
   }
 //
 
   Future<List<Product>> getAllProduct() async {
     const String getUrl = 'http://10.2.100.41:3000/admin/add-product';
-    final userProvider = Get.put(UserProvider());
+
     List<Product> productList = [];
     try {
       http.Response response = await http.post(
@@ -113,8 +109,7 @@ class AdminController extends GetxController {
     required Product product,
     required VoidCallback onSuccess,
   }) async {
-    final userProvider = Get.put(UserProvider());
-    const String deleteUrl = 'http://10.2.100.41:3000/admin/add-product';
+    const String deleteUrl = 'http://10.2.100.41:3000/admin/delete-product';
     try {
       http.Response response = await http.post(
         Uri.parse(deleteUrl),
@@ -134,6 +129,32 @@ class AdminController extends GetxController {
       );
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> updateProduct({required Product product}) async {
+    try {
+      var url = 'http://10.2.100.41:3000/admin/update-product/${product.id}';
+      http.Response response = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(
+        response: response,
+        onSuccess: () {
+          EasyLoading.showSuccess(
+            "Product updated successfully ",
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      EasyLoading.showError(
+        "Product updated successfully ",
+      );
     }
   }
 }

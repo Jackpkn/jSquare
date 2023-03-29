@@ -7,12 +7,12 @@ import '../../../GlobalWidgets/cached_network_image.dart';
 import '../../../GlobalWidgets/container.dart';
 import '../../../models/productmodels.dart';
 
-class ProductDetailsWidget extends StatefulWidget {
+class ProductCategoryWidget extends StatefulWidget {
   String? productImage;
   String? productName;
   String? productPrice;
   VoidCallback? onPressed;
-  ProductDetailsWidget(
+  ProductCategoryWidget(
       {super.key,
       this.productImage,
       this.productName,
@@ -21,10 +21,10 @@ class ProductDetailsWidget extends StatefulWidget {
 
 
   @override
-  State<ProductDetailsWidget> createState() => _ProductDetailsWidgetState();
+  State<ProductCategoryWidget> createState() => _ProductDetailsWidgetState();
 }
 
-class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
+class _ProductDetailsWidgetState extends State<ProductCategoryWidget> {
     List<Product>? productList;
    
 

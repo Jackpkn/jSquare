@@ -7,10 +7,12 @@ class User {
   final String id;
   final String name;
   final String email;
+  final String userName;
   final String password;
-  // List<KycModel> address;
+  final int? phone;
+  final String? image;
   List<KycModel>? address;
-  // final String address;
+ final List<dynamic> wishlist;
   final String type;
   final String token;
   final List<dynamic> cart;
@@ -19,11 +21,16 @@ class User {
     required this.id,
     required this.name,
     required this.email,
+    required this.userName,
     required this.password,
+     this.phone,
+    required this.image,
     required this.address,
+    required this.wishlist,
     required this.type,
     required this.token,
     required this.cart,
+
   });
 
   Map<String, dynamic> toMap() {
@@ -31,8 +38,12 @@ class User {
       'id': id,
       'name': name,
       'email': email,
+      'userName': userName,
       'password': password,
+      'phone': phone,
+      'image': image,
       'address': address,
+      'wishlist': wishlist,
       'type': type,
       'token': token,
       'cart': cart,
@@ -44,8 +55,10 @@ class User {
       id: map['_id'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
+      userName: map['userName'] ?? '',
       password: map['password'] ?? '',
-      // address: map['address'] ?? '',
+      phone: map['phone'] ?? 0,
+      image: map['image'] ?? '',
       address: map['ratings'] != null
           ? List<KycModel>.from(
               map['ratings']?.map(
@@ -53,6 +66,7 @@ class User {
               ),
             )
           : null,
+      wishlist: List<dynamic>.from((map['wishlist'] as List<dynamic>)),
       type: map['type'] ?? '',
       token: map['token'] ?? '',
       cart: List<Map<String, dynamic>>.from(
@@ -71,8 +85,12 @@ class User {
     String? id,
     String? name,
     String? email,
+    String? userName,
     String? password,
+    int? phone,
+    String? image,
     List<KycModel>? address,
+    List<dynamic>? wishlist,
     String? type,
     String? token,
     List<dynamic>? cart,
@@ -81,8 +99,12 @@ class User {
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      userName: userName ?? this.userName,
       password: password ?? this.password,
+      phone: phone ?? this.phone,
+      image: image ?? this.image,
       address: address ?? this.address,
+      wishlist: wishlist ?? this.wishlist,
       type: type ?? this.type,
       token: token ?? this.token,
       cart: cart ?? this.cart,

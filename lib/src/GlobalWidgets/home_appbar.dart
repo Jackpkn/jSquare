@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jsquare/src/providers/user_provider.dart';
+import 'package:badges/badges.dart' as badges;
 
 PreferredSizeWidget appbar() {
+  UserProvider userProvider = Get.put(UserProvider());
+  var cartLen = userProvider.user.cart.length;
   return AppBar(
     backgroundColor: const Color.fromRGBO(248, 248, 248, 1),
     flexibleSpace: Padding(
@@ -31,7 +36,9 @@ PreferredSizeWidget appbar() {
                 Padding(
                   padding: const EdgeInsets.only(top: 3),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      
+                    },
                     icon: const Icon(Icons.search),
                     iconSize: 28,
                     color: const Color.fromRGBO(0, 0, 0, 1),
@@ -40,17 +47,41 @@ PreferredSizeWidget appbar() {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  iconSize: 28,
-                  icon: const Icon(
-                    Icons.shopping_cart,
-                    color: Color.fromRGBO(0, 0, 0, 1),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed('my-cart');
+                  },
+                  child: badges.Badge(
+                    position: badges.BadgePosition.topEnd(top: -19, end: -12),
+                    showBadge: true,
+                    ignorePointer: false,
+                    badgeStyle: const badges.BadgeStyle(
+                      shape: badges.BadgeShape.circle,
+                      badgeColor: Colors.white,
+                      padding: EdgeInsets.all(5),
+                      // borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                     
+                      
+                      elevation: 0,
+                    ),
+                    badgeContent: Text(cartLen.toString()),
+                    child: const Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 30,
+                    ),
                   ),
                 ),
+                const SizedBox(
+                  width: 17,
+                ),
                 const CircleAvatar(
-                  radius: 18,
+                  radius: 16,
                   backgroundColor: Colors.black,
                   child: Text('J'),
                 )
@@ -62,3 +93,4 @@ PreferredSizeWidget appbar() {
     ),
   );
 }
+// DSA a

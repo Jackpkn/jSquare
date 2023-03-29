@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:jsquare/src/Features/Admin/services/admin_category_service.dart';
+import 'package:provider/provider.dart';
 import 'package:jsquare/src/Features/auth/services/auth_services.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:jsquare/src/routes/routes.dart';
 
-import 'src/Features/Admin/screens/admin_home_screen.dart';
+import 'src/Features/Home/screens/home_page.dart';
+import 'src/Features/auth/screens/login_screen.dart';
 import 'src/themes/colors_theme.dart';
 import 'src/themes/theme_storage.dart';
 
@@ -48,21 +50,29 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      builder: EasyLoading.init(),
-      title: 'jSquare',
-      theme: Themes.light,
-      debugShowCheckedModeBanner: false,
-      darkTheme: Themes.light,
-      themeMode: themeController.theme,
-      onGenerateRoute: (settings) => generateRoutes(settings),
-        home: const AdminScreen(),
-      // home: const IntroPage(),
-      // home: userProvider.user.token.isNotEmpty
-      //     ? userProvider.user.type == 'user'
-      //         ? const IntroPage()
-      //         : const AdminAddProduct()
-      //     : LoginScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AdminCategoryProvider())
+      ],
+      child: GetMaterialApp(
+        builder: EasyLoading.init(),
+        title: 'jSquare',
+        theme: Themes.light,
+        debugShowCheckedModeBanner: false,
+        darkTheme: Themes.light,
+        themeMode: themeController.theme,
+        onGenerateRoute: (settings) => generateRoutes(settings),
+        // home:   const Category(),
+        home: userProvider.user.token.isNotEmpty
+            ? const IntroPage()
+            : LoginScreen(),
+        // home: const IntroPage(),
+        // home: userProvider.user.token.isNotEmpty
+        //     ? userProvider.user.type == 'user'
+        //         ? const IntroPage()
+        //         : const AdminAddProduct()
+        //     : LoginScreen(),
+      ),
     );
   }
 }
@@ -113,4 +123,3 @@ void configLoading() {
     ..maskType = EasyLoadingMaskType.black
     ..dismissOnTap = true;
 }
-

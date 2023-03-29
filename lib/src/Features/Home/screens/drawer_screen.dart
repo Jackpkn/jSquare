@@ -1,11 +1,23 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jsquare/src/providers/user_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({super.key});
-
+      HomeDrawer({super.key});
+  void signOut() async {
+   
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('x-auth-token', '');
+    Get.toNamed('login-screen');
+   
+  }
+UserProvider userProvider = Get.put(UserProvider());
   @override
   Widget build(BuildContext context) {
+ 
     return Drawer(
       width: double.infinity,
       child: Column(
@@ -19,11 +31,11 @@ class HomeDrawer extends StatelessWidget {
               color: Colors.white,
               height: 90,
               padding: const EdgeInsets.only(top: 16, left: 10),
-              child: const Row(
+              child:   const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Amo You JSquare',
+                    'WELCOME AMO YOU',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -39,7 +51,7 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.toNamed('profile-page');
+              Get.toNamed('my-cart');
             },
             leading: const Icon(
               Icons.person,
@@ -75,6 +87,7 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
+              
               Get.toNamed('favourites-page');
             },
             leading: const Icon(
@@ -93,7 +106,8 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.toNamed('recommended-page');
+              // Get.toNamed('recommended-page');
+              Get.back();
             },
             leading: const Icon(
               Icons.recommend_rounded,
@@ -174,7 +188,9 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              signOut();
+            },
             leading: const Icon(
               Icons.logout,
               color: Colors.black,

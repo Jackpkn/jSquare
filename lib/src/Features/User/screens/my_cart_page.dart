@@ -1,27 +1,23 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jsquare/src/Features/User/widgets/cartproduct.dart';
+import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 
 import '../../../GlobalWidgets/container.dart';
-import '../../../models/productmodels.dart';
-import '../Services/user_services.dart';
-import '../widgets/cartproduct.dart';
 
 class MyCart extends StatelessWidget {
-  MyCart({super.key});
-  final UserServices userServices = Get.put(UserServices());
-  void increaseQuantity(Product product) {
-    userServices.increaseQuantity(product: product);
-  }
+  static const String routeName = 'my-cart';
 
-  void decreaseQuantity(Product product) {
-    userServices.decreaseQuantity(product: product);
-  }
+  MyCart({super.key});
 
   UserProvider userProvider = Get.put(UserProvider());
   int sum = 0;
+  StreamController controller = StreamController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,80 +28,35 @@ class MyCart extends StatelessWidget {
 
     double discount = sum * 0.10;
     double amountToBePaid = gst + sum - discount;
-
+    controller.sink.add(userProvider.user.cart);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'My Cart',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
-        ),
-      ),
+      // backgroundColor: Colors.amber,
+      appBar: appbar(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),
-          child: Column(
-            children: [
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 6,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return CartProduct(
-                    index: index,
-                  );
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Total',
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text('₹$sum'),
-                   const Text(
-                    'GST(18%)',
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text('₹$gst'),
-                   const Text(
-                    'Discount(-10%)',
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text('₹$discount'),
-                   const Text(
-                    'Amount to be paid',
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text('₹$amountToBePaid'),
-                 
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+          child: StreamBuilder(
+        stream: controller.stream,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return const Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 20,
+            );
+          }
+          if (snapshot.hasData) {
+            return ViewPage();
+            // LikeCounter(stream.data.value);
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      )),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 1, top: 0.9),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed('checkout-page');
+          },
           child: GlobalContainer(
             height: 65,
             width: MediaQuery.of(context).size.width * 0.99,
@@ -120,6 +71,112 @@ class MyCart extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ViewPage extends StatelessWidget {
+  ViewPage({super.key});
+
+  UserProvider userProvider = Get.put(UserProvider());
+  int sum = 0;
+  @override
+  Widget build(BuildContext context) {
+    userProvider.user.cart
+        .map((e) => sum += e['quantity'] * e['product']['price'] as int)
+        .toList();
+    double gst = sum * 0.18;
+
+    double discount = sum * 0.10;
+    double amountToBePaid = gst + sum - discount;
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),
+      child: Column(
+        children: [
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: userProvider.user.cart.length,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return CartProduct(index: index);
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Total',
+                style: TextStyle(
+                    color: Color.fromARGB(153, 0, 0, 0),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '₹$sum',
+                style: const TextStyle(
+                    color: Color.fromARGB(153, 0, 0, 0),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const Text(
+              'GST(18%)',
+              style: TextStyle(
+                  color: Color.fromARGB(153, 6, 3, 3),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600),
+            ),
+            Text(
+              '₹$gst',
+              style: const TextStyle(
+                  color: Color.fromARGB(153, 7, 4, 4),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600),
+            ),
+          ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Discount(-10%)',
+                style: TextStyle(
+                    color: Color.fromARGB(153, 16, 9, 9),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '₹$discount',
+                style: const TextStyle(
+                    color: Color.fromARGB(153, 5, 3, 3),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Amount to be paid',
+                style: TextStyle(
+                    color: Color.fromARGB(153, 0, 0, 0),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '₹$amountToBePaid',
+                style: const TextStyle(
+                    color: Color.fromARGB(153, 0, 0, 0),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

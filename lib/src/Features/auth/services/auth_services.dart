@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:jsquare/src/Features/Admin/screens/admin_home_screen.dart';
 
 import 'package:jsquare/src/constants/httperror_handling.dart';
 import 'package:jsquare/src/models/user_models.dart';
@@ -17,6 +16,8 @@ import '../constant/constant.dart';
 
 class AuthService extends GetxController {
   static AuthService get instance => Get.find();
+
+  // String url = Config.url;
   // 10.2.100.41
   Rxn<User> user = Rxn<User>();
   final baseUrl = 'http://10.2.100.41:3000/auth/signUp';
@@ -25,14 +26,20 @@ class AuthService extends GetxController {
     required String name,
     required String password,
     required String email,
+    required String userName,
+    required int phone,
   }) async {
     try {
       User user = User(
         id: '',
         name: name,
         email: email,
+        userName: userName,
         password: password,
+        phone: phone,
+        image: '',
         address: [],
+        wishlist: [],
         type: '',
         token: '',
         cart: [],
@@ -109,23 +116,18 @@ class AuthService extends GetxController {
 
           EasyLoading.showSuccess('WelCome to AMO YOU');
 
-          Get.to(const AdminScreen());
+          Get.to(const IntroPage());
         },
       );
     } catch (e) {
       debugPrint(e.toString());
       EasyLoading.showError('Something wrong. Try again!');
-      // Get.showSnackbar(GetSnackBar(
-      //   message: e.toString(),
-      // ));
     }
   }
 
   void signOut() async {
-   
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('x-auth-token', '');
-   
   }
 
   Future getUser() async {
@@ -135,6 +137,7 @@ class AuthService extends GetxController {
       if (token == null) {
         preferences.setString('x-auth-token', '');
       }
+
       const tokenIsValid = 'http://10.2.100.41:3000/auth/tokenValid';
       var tokenRes =
           await http.post(Uri.parse(tokenIsValid), headers: <String, String>{
@@ -151,9 +154,11 @@ class AuthService extends GetxController {
         });
         //! initialize user provider
         var userProvider = Get.put(UserProvider());
+
         userProvider.setUser(userRes.body);
       }
     } catch (e) {
+      EasyLoading.showError('Something went wrong. Try again!');
       debugPrint(e.toString());
     }
   }
