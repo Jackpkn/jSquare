@@ -1,6 +1,5 @@
 import 'dart:convert';
 
- 
 import 'productmodels.dart';
 
 class Order {
@@ -12,6 +11,7 @@ class Order {
   final int orderedAt;
   final int status;
   final double totalPrice;
+  String? transactionId;
   Order({
     required this.id,
     required this.products,
@@ -21,6 +21,7 @@ class Order {
     required this.orderedAt,
     required this.status,
     required this.totalPrice,
+    this.transactionId,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,25 +34,26 @@ class Order {
       'orderedAt': orderedAt,
       'status': status,
       'totalPrice': totalPrice,
+      'transactionId': transactionId,
     };
   }
 
   factory Order.fromMap(Map<String, dynamic> map) {
     return Order(
-      id: map['_id'] ?? '',
-      products: List<Product>.from(
-          map['products']?.map((x) => Product.fromMap(x['product']))),
-      quantity: List<int>.from(
-        map['products']?.map(
-          (x) => x['quantity'],
+        id: map['_id'] ?? '',
+        products: List<Product>.from(
+            map['products']?.map((x) => Product.fromMap(x['product']))),
+        quantity: List<int>.from(
+          map['products']?.map(
+            (x) => x['quantity'],
+          ),
         ),
-      ),
-      address: map['address'] ?? '',
-      userId: map['userId'] ?? '',
-      orderedAt: map['orderedAt']?.toInt() ?? 0,
-      status: map['status']?.toInt() ?? 0,
-      totalPrice: map['totalPrice']?.toDouble() ?? 0.0,
-    );
+        address: map['address'] ?? '',
+        userId: map['userId'] ?? '',
+        orderedAt: map['orderedAt']?.toInt() ?? 0,
+        status: map['status']?.toInt() ?? 0,
+        totalPrice: map['totalPrice']?.toDouble() ?? 0.0,
+        transactionId: map['transactionId'] ?? '');
   }
 
   String toJson() => json.encode(toMap());

@@ -4,6 +4,7 @@ import 'package:jsquare/src/Features/Home/screens/home_page.dart';
 import 'package:jsquare/src/Features/Product_Details/screens/product_details_page.dart';
 import 'package:jsquare/src/Features/Address/screens/checkout_page.dart';
 import 'package:jsquare/src/Features/User/screens/my_cart_page.dart';
+import 'package:jsquare/src/Features/User/screens/order_page.dart';
 import 'package:jsquare/src/Features/User/screens/profile_page.dart';
 import 'package:jsquare/src/Features/User/screens/myfavourites.dart';
 import 'package:jsquare/src/Features/User/screens/ratingandreviews.dart';
@@ -72,9 +73,19 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
       );
     case ProductDetails.routeName:
       final data = routeSettings.arguments as Product;
+   
       return MaterialPageRoute(
         builder: (_) => ProductDetails(
           data: data,
+         
+
+        ),
+      );
+       case OrdersPage.routeName:
+       
+      return MaterialPageRoute(
+        builder: (_) => const OrdersPage(
+          
         ),
       );
     // case RatingScreen.routeName:

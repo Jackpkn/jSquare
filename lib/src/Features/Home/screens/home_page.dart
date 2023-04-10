@@ -86,8 +86,8 @@ class _IntroPageState extends State<IntroPage> {
                         height: 45,
                         decoration: BoxDecoration(
                           color: homeController.tabStatus.value
-                              ? Colors.white
-                              : Colors.black,
+                              ? Colors.black
+                              : Colors.white,
                           borderRadius: homeController.tabStatus.value
                               ? BorderRadius.circular(15)
                               : BorderRadius.circular(10),
@@ -96,8 +96,8 @@ class _IntroPageState extends State<IntroPage> {
                           'Furniture',
                           style: TextStyle(
                             color: homeController.tabStatus.value
-                                ? Colors.black
-                                : Colors.white,
+                                ? Colors.white
+                                : Colors.black,
                           ),
                         ),
                       ),
@@ -116,8 +116,8 @@ class _IntroPageState extends State<IntroPage> {
                         height: 45,
                         decoration: BoxDecoration(
                           color: homeController.tabStatus.value
-                              ? Colors.black
-                              : Colors.white,
+                              ? Colors.white
+                              : Colors.black,
                           borderRadius: homeController.tabStatus.value
                               ? BorderRadius.circular(15)
                               : BorderRadius.circular(10),
@@ -126,8 +126,9 @@ class _IntroPageState extends State<IntroPage> {
                           'Appliances',
                           style: TextStyle(
                               color: homeController.tabStatus.value
-                                  ? Colors.white
-                                  : Colors.black),
+                                  ?Colors.black
+                                  : Colors.white
+                                  ),
                         ),
                       ),
                     ),
@@ -210,71 +211,68 @@ class _IntroPageState extends State<IntroPage> {
                     : SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SizedBox(
-                          height: 900,
+                          // height: 900,
                           child: GridView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 3 / 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 4,
-                                mainAxisExtent: 370,
-                              ),
-                              padding: const EdgeInsets.all(10.0),
-                              itemCount: productModel.length,
-                              itemBuilder: (ctx, i) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    navigateToDealScreen(
-                                      productModel[i].name.toString(),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    height: 90,
-                                    width: 90,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CachedNetImage(
-                                            imageUrl: productModel[i]
-                                                .image
-                                                .toString(),
-                                            height: 267,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        Text(
-                                          productModel[i].name.toString(),
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(
-                                          height: 6,
-                                        ),
-                                        Text(
-                                          productModel[i]
-                                              .description
-                                              .toString(),
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ],
-                                    ),
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3 / 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 4,
+                              mainAxisExtent: 370,
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            itemCount: furniture.length,
+                            itemBuilder: (ctx, i) {
+                              return GestureDetector(
+                                onTap: () {
+                                  navigateToDealScreen(
+                                    furniture[i].name.toString(),
+                                  );
+                                },
+                                child: SizedBox(
+                                  height: 90,
+                                  width: 90,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CachedNetImage(
+                                          imageUrl:
+                                              furniture[i].image.toString(),
+                                          height: 267,
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Text(
+                                        furniture[i].name.toString(),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Text(
+                                        furniture[i].description.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ],
                                   ),
-                                );
-                              }),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
               ],

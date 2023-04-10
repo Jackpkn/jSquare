@@ -2,22 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeDrawer extends StatelessWidget {
-      HomeDrawer({super.key});
+  HomeDrawer({super.key});
   void signOut() async {
-   
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('x-auth-token', '');
     Get.toNamed('login-screen');
-   
   }
-UserProvider userProvider = Get.put(UserProvider());
+
+  UserProvider userProvider = Get.put(UserProvider());
   @override
   Widget build(BuildContext context) {
- 
     return Drawer(
       width: double.infinity,
       child: Column(
@@ -31,7 +30,7 @@ UserProvider userProvider = Get.put(UserProvider());
               color: Colors.white,
               height: 90,
               padding: const EdgeInsets.only(top: 16, left: 10),
-              child:   const Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -51,18 +50,18 @@ UserProvider userProvider = Get.put(UserProvider());
           ),
           ListTile(
             onTap: () {
-              Get.toNamed('my-cart');
+              Get.toNamed('profile-page');
             },
             leading: const Icon(
-              Icons.person,
-              color: Colors.black,
-              size: 28,
+              EvaIcons.person,
+              color: Colors.red,
+              size: 30,
             ),
             title: const Text(
               'Your Profile',
               style: TextStyle(
                 color: Color.fromRGBO(0, 0, 0, 1),
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -87,7 +86,6 @@ UserProvider userProvider = Get.put(UserProvider());
           ),
           ListTile(
             onTap: () {
-              
               Get.toNamed('favourites-page');
             },
             leading: const Icon(

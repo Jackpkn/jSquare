@@ -2,6 +2,8 @@ import 'package:jsquare/src/models/category_model.dart';
 import 'package:jsquare/src/models/user_models.dart';
 
 import 'package:get/get.dart';
+
+import '../models/productmodels.dart';
 // class UserProvider extends ChangeNotifier {
 //   User _user = User(
 //     id: '',
@@ -63,5 +65,23 @@ class UserProvider extends GetxController {
   CategoryModel get categoryModel => _categoryModel;
   void setCategoryModel(String categoryModel) {
     _categoryModel = CategoryModel.fromJson(categoryModel);
+  }
+}
+
+class ProductController extends GetxController {
+  Product _product = Product(
+    name: '',
+    description: '',
+    quantity: 0,
+    images: [],
+    category: '',
+    price: 0,
+  );
+
+  Product get product => _product;
+
+  void serProductModel(String product) {
+    _product = Product.fromJson(product);
+    update();
   }
 }

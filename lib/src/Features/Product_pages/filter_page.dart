@@ -3,7 +3,6 @@ import 'package:focused_menu_custom/modals.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:focused_menu_custom/focused_menu.dart';
 import '../../GlobalWidgets/cached_network_image.dart';
-import '../../GlobalWidgets/filter_page_appbar.dart';
 import '../../GlobalWidgets/rating.dart';
 
 class FilterPage extends StatelessWidget {
@@ -13,7 +12,9 @@ class FilterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: filerAppbar(),
+
+          // appBar: filerAppbar(),
+          appBar: AppBar(),
           body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
@@ -36,27 +37,31 @@ class FilterPage extends StatelessWidget {
                           openWithTap: true,
                           menuItems: [
                             FocusedMenuItem(
-                                title: const Text("Open"),
-                                trailingIcon: const Icon(Icons.open_in_new),
-                                onPressed: () {}),
+                              title: const Text("Open"),
+                              trailingIcon: const Icon(Icons.open_in_new),
+                              onPressed: () {},
+                            ),
                             FocusedMenuItem(
-                                title: const Text("Share"),
-                                trailingIcon: const Icon(Icons.share),
-                                onPressed: () {}),
+                              title: const Text("Share"),
+                              trailingIcon: const Icon(Icons.share),
+                              onPressed: () {},
+                            ),
                             FocusedMenuItem(
-                                title: const Text("Favorite"),
-                                trailingIcon: const Icon(Icons.favorite_border),
-                                onPressed: () {}),
+                              title: const Text("Favorite"),
+                              trailingIcon: const Icon(Icons.favorite_border),
+                              onPressed: () {},
+                            ),
                             FocusedMenuItem(
-                                title: const Text(
-                                  "Delete",
-                                  style: TextStyle(color: Colors.redAccent),
-                                ),
-                                trailingIcon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.redAccent,
-                                ),
-                                onPressed: () {}),
+                              title: const Text(
+                                "Delete",
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                              trailingIcon: const Icon(
+                                Icons.delete,
+                                color: Colors.redAccent,
+                              ),
+                              onPressed: () {},
+                            ),
                           ],
                           onPressed: () {},
                           child: Container(
@@ -70,7 +75,7 @@ class FilterPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
-                                  Icons.sort_sharp,
+                                  Icons.sort,
                                   size: 30,
                                   color: Colors.white,
                                 ),
@@ -82,63 +87,6 @@ class FilterPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     FocusedMenuHolder(
-                        //       menuItems: [
-                        //         FocusedMenuItem(
-                        //             title: const Text("Open"),
-                        //             trailingIcon: const Icon(Icons.open_in_new),
-                        //             onPressed: () {}),
-                        //         FocusedMenuItem(
-                        //             title: const Text("Share"),
-                        //             trailingIcon: const Icon(Icons.share),
-                        //             onPressed: () {}),
-                        //         FocusedMenuItem(
-                        //             title: const Text("Favorite"),
-                        //             trailingIcon:
-                        //                 const Icon(Icons.favorite_border),
-                        //             onPressed: () {}),
-                        //         FocusedMenuItem(
-                        //             title: const Text(
-                        //               "Delete",
-                        //               style: TextStyle(color: Colors.redAccent),
-                        //             ),
-                        //             trailingIcon: const Icon(
-                        //               Icons.delete,
-                        //               color: Colors.redAccent,
-                        //             ),
-                        //             onPressed: () {}),
-                        //       ],
-                        //       onPressed: () {},
-                        //       child: const Text('jack'),
-                        //     );
-                        //   },
-                        //   child: Container(
-                        //     width: MediaQuery.of(context).size.width * 0.47,
-                        //     height: 35,
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       color: Colors.black,
-                        //     ),
-                        //     child: const Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //       children: [
-                        //         Icon(
-                        //           Icons.line_axis,
-                        //           color: Colors.orange,
-                        //         ),
-                        //         Text(
-                        //           'Sort by',
-                        //           style: TextStyle(
-                        //             fontSize: 20,
-                        //             color: Colors.white,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.47,
                           height: 35,

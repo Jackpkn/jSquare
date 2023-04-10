@@ -21,7 +21,7 @@ List<ProductModel> productModel = [
   ProductModel(
     image:
         'https://static5.depositphotos.com/1005574/413/v/600/depositphotos_4130311-stock-illustration-tv-lcd.jpg',
-    name: 'Mango',
+    name: 'Refrigerators',
     description: 'Starting from ₹500',
   ),
   ProductModel(
@@ -30,6 +30,53 @@ List<ProductModel> productModel = [
     name: 'TVs',
     description: 'Starting from ₹600',
   ),
+  ProductModel(
+    image:
+        'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+    name: 'Microwave Ovens',
+    description: 'Starting from ₹400',
+  ),
+  ProductModel(
+    image:
+        'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+    name: 'Water Purifiers',
+    description: 'Starting from ₹340',
+  ),
+];
+
+class Furniture {
+  String? image;
+  String? name;
+  String? description;
+  Furniture({this.image, this.name, this.description});
+}
+
+List<Furniture> furniture = [
+  Furniture(
+      image:
+          'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+      name: 'Beds',
+      description: 'Starting from ₹340'),
+  Furniture(
+      image:
+          'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+      name: 'Sofas',
+      description: 'Starting from ₹840'),
+  Furniture(
+      image:
+          'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+      name: 'Wardrobes',
+      description: 'Starting from ₹640'),
+  Furniture(
+      image:
+          'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+      name: 'Chairs',
+      description: 'Starting from ₹640'),
+  Furniture(
+      image:
+          'https://st4.depositphotos.com/3097111/38442/v/600/depositphotos_384422118-stock-illustration-realistic-microwave-oven-steel-vector.jpg',
+      name: 'Tables',
+      description: 'Starting from ₹540'),
 ];
 
 class SelectMonth {
@@ -143,14 +190,11 @@ class Models {
 }
 
 List<Models> list = [
-  Models(
-    image: {
-      'image': 'image',
+  Models(image: {
+    'image': 'image',
+  }, images: {
+    'name': {
+      "jack": "pawan",
     },
-    images: {
-      'name': {
-        "jack": "pawan",
-      },
-    }
-  ),
+  }),
 ];

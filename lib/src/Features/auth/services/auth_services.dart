@@ -139,11 +139,13 @@ class AuthService extends GetxController {
       }
 
       const tokenIsValid = 'http://10.2.100.41:3000/auth/tokenValid';
-      var tokenRes =
-          await http.post(Uri.parse(tokenIsValid), headers: <String, String>{
-        'Content-type': 'application/json; charset=UTF-8',
-        'x-auth-token': token!,
-      });
+      var tokenRes = await http.post(
+        Uri.parse(tokenIsValid),
+        headers: <String, String>{
+          'Content-type': 'application/json; charset=UTF-8',
+          'x-auth-token': token!,
+        },
+      );
       var response = jsonDecode(tokenRes.body);
       if (response == true) {
         const getUser = 'http://10.2.100.41:3000/auth/getUser';
@@ -174,9 +176,17 @@ class AuthService extends GetxController {
     final idToken = googleAuth.idToken;
 
     final url = Uri.parse('$googleUrl/auth/google-sign');
-    http.Response response = await http.post(url,
-        body: jsonEncode({'idToken': idToken}),
-        headers: <String, String>{'Content-type': 'application/json'});
+    http.Response response = await http.post(
+      url,
+      body: jsonEncode(
+        {
+          'idToken': idToken,
+        },
+      ),
+      headers: <String, String>{
+        'Content-type': 'application/json',
+      },
+    );
     final responseData = jsonDecode(response.body);
 
     token0 = responseData['token'];

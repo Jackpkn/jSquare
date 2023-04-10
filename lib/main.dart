@@ -6,13 +6,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jsquare/src/Features/Admin/services/admin_category_service.dart';
+import 'package:jsquare/src/Features/Home/screens/home_page.dart';
+import 'package:jsquare/src/Features/auth/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:jsquare/src/Features/auth/services/auth_services.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:jsquare/src/routes/routes.dart';
 
-import 'src/Features/Home/screens/home_page.dart';
-import 'src/Features/auth/screens/login_screen.dart';
 import 'src/themes/colors_theme.dart';
 import 'src/themes/theme_storage.dart';
 
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: Themes.light,
         themeMode: themeController.theme,
         onGenerateRoute: (settings) => generateRoutes(settings),
-        // home:   const Category(),
+        // home:   const AllReviews(),
         home: userProvider.user.token.isNotEmpty
             ? const IntroPage()
             : LoginScreen(),
@@ -123,3 +123,4 @@ void configLoading() {
     ..maskType = EasyLoadingMaskType.black
     ..dismissOnTap = true;
 }
+// java script node js flutter firebase dsa 

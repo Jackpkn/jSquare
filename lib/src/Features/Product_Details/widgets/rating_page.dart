@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/Product_Details/services/product_services.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
+import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 
 import '../../../GlobalWidgets/textfromfield.dart';
 import '../../../models/productmodels.dart';
@@ -30,7 +31,7 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: appbar(),
       body: Form(
         key: _key,
         child: Column(
@@ -46,7 +47,7 @@ class _RatingScreenState extends State<RatingScreen> {
             RatingBar.builder(
               initialRating: 0,
               itemCount: 5,
-              allowHalfRating: true,
+              allowHalfRating: false,
               direction: Axis.horizontal,
               minRating: 1,
               itemPadding: const EdgeInsets.symmetric(horizontal: 4),
@@ -87,14 +88,16 @@ class _RatingScreenState extends State<RatingScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (star == 0) {
-                  EasyLoading.showError('Please rate the product');
-                } else {
-                  productServices.ratingProduct(
-                    product: widget.product,
-                    star: star,
-                    message: messageController.text.trim(),
-                  );
+                if (_key.currentState!.validate()) {
+                  if (star == 0) {
+                    EasyLoading.showError('Please rate the product');
+                  } else {
+                    productServices.ratingProduct(
+                      product: widget.product,
+                      star: star,
+                      message: messageController.text.trim(),
+                    );
+                  }
                 }
               },
               child: GlobalContainer(

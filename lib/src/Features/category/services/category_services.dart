@@ -9,19 +9,18 @@ import 'package:jsquare/src/models/productmodels.dart';
 import 'package:jsquare/src/models/user_models.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 
+final userProvider = Get.put(UserProvider());
 
- final userProvider = Get.put(UserProvider());
 class CategoryServices {
-  Future<List<Product>> fetchCategoryProducts({
-    required String category,
-    required BuildContext context
-  }) async {
+  Future<List<Product>> fetchCategoryProducts(
+      {required String category, required BuildContext context}) async {
     List<Product> productList = [];
-  try { 
+    try {
       // final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-// /api/get-products
-      final url = 'http://10.2.100.41:3000/api/get-products?category=$category';
+      //api/get-products
+      // final url = 'http://10.2.100.41:3000/api/get-products?category=$category';
+      final url = 'http://10.2.100.41:3000/api/search?category=$category';
       http.Response res = await http.get(
         Uri.parse(url),
         headers: {
@@ -31,7 +30,6 @@ class CategoryServices {
       );
 
       httpErrorHandle(
-
         response: res,
         onSuccess: () {
           // var taskJson = json.decode(res.body);
@@ -40,7 +38,7 @@ class CategoryServices {
           //   productList.add(product);
           //   // debugPrint(res);
           // }
-         
+
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
             productList.add(
               Product.fromJson(
@@ -54,15 +52,17 @@ class CategoryServices {
       );
     } catch (e) {
       debugPrint(e.toString());
-       EasyLoading.showError(e.toString());
+      EasyLoading.showError(e.toString());
     }
     return productList;
   }
 
+  void sortBy({
+    required Product product,
+  }) {}
+
   void addToCart({required Product product}) async {
     try {
-      
-      
       const url = 'http://10.2.100.41:3000/api/add-to-cart';
       http.Response response = await http.post(
         Uri.parse(url),
@@ -81,13 +81,12 @@ class CategoryServices {
         onSuccess: () {
           User user = userProvider.user.copyWith(
             cart: jsonDecode(response.body)['cart'],
-
           );
-         EasyLoading.showSuccess('success');
+          EasyLoading.showSuccess('success');
           userProvider.setUserFromModel(user);
         },
       );
-    } catch (e) {   
+    } catch (e) {
       debugPrint(e.toString());
       EasyLoading.showError(e.toString());
     }

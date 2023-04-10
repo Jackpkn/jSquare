@@ -5,32 +5,32 @@ import 'kycmodel.dart';
 
 class User {
   final String id;
-  final String name;
-  final String email;
-  final String userName;
+  late final String name;
+  late final String email;
+  late final String userName;
   final String password;
-  final int? phone;
+  late final int? phone;
   final String? image;
   List<KycModel>? address;
- final List<dynamic> wishlist;
+  final List<dynamic> wishlist;
   final String type;
   final String token;
   final List<dynamic> cart;
-
+  String? stripeCustomerId;
   User({
     required this.id,
     required this.name,
     required this.email,
     required this.userName,
     required this.password,
-     this.phone,
+    this.phone,
     required this.image,
     required this.address,
     required this.wishlist,
     required this.type,
     required this.token,
     required this.cart,
-
+    this.stripeCustomerId,
   });
 
   Map<String, dynamic> toMap() {
@@ -47,6 +47,7 @@ class User {
       'type': type,
       'token': token,
       'cart': cart,
+      'stripeCustomerId': stripeCustomerId,
     };
   }
 
@@ -74,6 +75,7 @@ class User {
           (x) => Map<String, dynamic>.from(x),
         ),
       ),
+      stripeCustomerId: map['stripeCustomerId'] ?? '',
     );
   }
 
@@ -81,33 +83,33 @@ class User {
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
-  User copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? userName,
-    String? password,
-    int? phone,
-    String? image,
-    List<KycModel>? address,
-    List<dynamic>? wishlist,
-    String? type,
-    String? token,
-    List<dynamic>? cart,
-  }) {
+  User copyWith(
+      {String? id,
+      String? name,
+      String? email,
+      String? userName,
+      String? password,
+      int? phone,
+      String? image,
+      List<KycModel>? address,
+      List<dynamic>? wishlist,
+      String? type,
+      String? token,
+      List<dynamic>? cart,
+      String? stripeCustomerId}) {
     return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      userName: userName ?? this.userName,
-      password: password ?? this.password,
-      phone: phone ?? this.phone,
-      image: image ?? this.image,
-      address: address ?? this.address,
-      wishlist: wishlist ?? this.wishlist,
-      type: type ?? this.type,
-      token: token ?? this.token,
-      cart: cart ?? this.cart,
-    );
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        userName: userName ?? this.userName,
+        password: password ?? this.password,
+        phone: phone ?? this.phone,
+        image: image ?? this.image,
+        address: address ?? this.address,
+        wishlist: wishlist ?? this.wishlist,
+        type: type ?? this.type,
+        token: token ?? this.token,
+        cart: cart ?? this.cart,
+        stripeCustomerId: stripeCustomerId ?? this.stripeCustomerId);
   }
 }

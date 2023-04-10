@@ -76,8 +76,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           title: const Text(
             'Checkout',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 19),
           ),
         ),
         body: SafeArea(
@@ -228,7 +231,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     const SizedBox(
                       height: 7,
                     ),
-   TextFormInput(
+                    TextFormInput(
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return "This field can't be empty";

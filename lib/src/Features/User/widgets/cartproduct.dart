@@ -8,8 +8,6 @@ import 'package:jsquare/src/providers/user_provider.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 
-
-
 class CartProduct extends StatefulWidget {
   int index;
   CartProduct({
@@ -42,19 +40,25 @@ class _CartProductState extends State<CartProduct> {
     final product = Product.fromMap(productCart['product']);
 
     final quantity = productCart['quantity'];
-    
+
     return Column(
       children: [
-        Text("product id ${product.id.toString()}", style: const TextStyle(fontWeight: FontWeight.bold, ),),
-        const SizedBox(height: 7,),
+        Text(
+          "product id -> ${product.id.toString()}",
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(
+          height: 7,
+        ),
         Row(
           children: [
             SizedBox(
               height: 166,
               // width: MediaQuery.of(context).size.width * 0.47,
               child: CachedNetImage(
-                
-                imageUrl: "product.images[0]",
+                imageUrl: product.images[0],
                 height: 166,
                 width: MediaQuery.of(context).size.width * 0.47,
               ),
@@ -62,8 +66,7 @@ class _CartProductState extends State<CartProduct> {
             Container(
               height: 166,
               // color: Colors.pink,
-                width:
-                                      MediaQuery.of(context).size.width * 0.48,
+              width: MediaQuery.of(context).size.width * 0.48,
               // width: MediaQuery.of(context).size.width * 0.48,
               padding: const EdgeInsets.all(0),
               child: Stack(
@@ -71,12 +74,11 @@ class _CartProductState extends State<CartProduct> {
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    
                     // 'Samsung 55 Inches 4k Neo Series Ultra HD Smart LED TV',
                     product.description,
                     // overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 18,
-                    
+                    style: const TextStyle(
+                      fontSize: 18,
                     ),
                   ),
                   Align(
@@ -215,7 +217,7 @@ class _CartProductState extends State<CartProduct> {
                                       onTap: () => increaseQuantity(product),
                                       child: Container(
                                         width: 35,
-                                     height: 26,
+                                        height: 26,
                                         alignment: Alignment.center,
                                         child: const Icon(
                                           Icons.add,

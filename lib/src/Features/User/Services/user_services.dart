@@ -12,9 +12,10 @@ import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
 
 final userProvider = Get.put(UserProvider());
-UserController userController =Get.put(UserController());
+UserController userController = Get.put(UserController());
+
 class UserServices extends GetxController {
-  Future  decreaseQuantity({required Product product}) async {
+  Future decreaseQuantity({required Product product}) async {
     // userController._streamController.stream;
     try {
       // var url = 'http://10.2.100.41:3000/api/remove-from-cart/${product.id}';
@@ -39,7 +40,7 @@ class UserServices extends GetxController {
     }
   } // ?product=$product.id
 
-  Future  deleteAddToCartProduct({
+  Future deleteAddToCartProduct({
     required Product product,
   }) async {
     try {
@@ -69,7 +70,7 @@ class UserServices extends GetxController {
     }
   }
 
-  Future  increaseQuantity({required Product product}) async {
+  Future increaseQuantity({required Product product}) async {
     try {
       const uri = 'http://10.2.100.41:3000/api/add-to-cart';
 
@@ -95,7 +96,7 @@ class UserServices extends GetxController {
     }
   }
 
-  Future  placeOrder({
+  Future placeOrder({
     required String address,
     required double totalSum,
   }) async {
@@ -163,7 +164,7 @@ class UserServices extends GetxController {
     required String name,
     required String email,
     required String userName,
-    required String phone,
+    required int phone,
   }) async {
     try {
       final id = userProvider.user.id;
@@ -188,6 +189,8 @@ class UserServices extends GetxController {
       httpErrorHandle(
         response: response,
         onSuccess: () {
+          Get.find<UserProvider>().setUser(response.body);
+          // print(response.body);
           EasyLoading.showSuccess(' your address Successfully update');
         },
       );
@@ -205,8 +208,8 @@ class UserServices extends GetxController {
 
   Future<void> wishProduct({required Product product}) async {
     try {
-        const url = 'http://10.2.100.41:3000/api/addToWishList';
-        //  const url = 'http://10.2.100.41:3000/api/favourite';
+      const url = 'http://10.2.100.41:3000/api/addToWishList';
+      //  const url = 'http://10.2.100.41:3000/api/favourite';
       http.Response response = await http.put(
         Uri.parse(url),
         headers: <String, String>{
@@ -256,5 +259,39 @@ class UserServices extends GetxController {
       EasyLoading.showError(e.toString());
     }
     return products;
+  }
+
+  Future<void> likeProduct({required Product product}) async {
+    try {
+      var url = 'http://10.2.100.41:3000/api/like/${product.id}';
+      http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(response: response, onSuccess: () {});
+    } catch (e) {
+      debugPrint(e.toString());
+      EasyLoading.showError(e.toString());
+    }
+  }
+  //  
+   Future<void> disLikeProduct({required Product product}) async {
+    try {
+      var url = 'http://10.2.100.41:3000/api/disLike/${product.id}';
+      http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(response: response, onSuccess: () {});
+    } catch (e) {
+      debugPrint(e.toString());
+      EasyLoading.showError(e.toString());
+    }
   }
 }

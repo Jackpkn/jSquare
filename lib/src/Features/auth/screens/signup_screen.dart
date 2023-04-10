@@ -117,9 +117,9 @@ class SignUpScreen extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return "This field can't be empty";
                     } 
-                    // else if (!value.isValidPhone) {
-                    //   return "Please enter valid phone";
-                    // }
+                    else if (!value.isValidPhone) {
+                      return "Please enter valid phone";
+                    }
                     return null;
                   },
                 ),

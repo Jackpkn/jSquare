@@ -1,23 +1,25 @@
 // ignore_for_file: must_be_immutable
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/Product_Details/widgets/rating_page.dart';
 import 'package:jsquare/src/Features/category/services/category_services.dart';
+import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 import 'package:jsquare/src/models/cart_model.dart';
-import 'package:jsquare/src/models/product_models.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:jsquare/src/GlobalWidgets/rating.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 
+import '../../../GlobalWidgets/allreview.dart';
 import '../../../GlobalWidgets/cached_network_image.dart';
 import '../../../models/productmodels.dart';
-import '../../../models/tv_models.dart';
 import '../../User/Services/user_services.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = 'productDetails';
 
   Product data;
+
   ProductDetails({
     super.key,
     required this.data,
@@ -40,9 +42,29 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
+  void likesProduct() {
+    userService.likeProduct(product: widget.data);
+  }
+
+  void disLikeProduct() {
+    userService.disLikeProduct(product: widget.data);
+  }
+
+  double fiveRating = 0;
+  List fiveRateList = [];
+
+  int fourRating = 0;
+  List fourRateList = [];
+  int threeRating = 0;
+  List threeRateList = [];
+  int twoRating = 0;
+  List twoRateList = [];
+  int oneRating = 0;
+  List oneRateList = [];
   @override
   void initState() {
     super.initState();
+
     double totalRating = 0;
     for (int i = 0; i < widget.data.rating!.length; i++) {
       totalRating += widget.data.rating![i].star;
@@ -53,6 +75,43 @@ class _ProductDetailsState extends State<ProductDetails> {
     if (totalRating != 0) {
       avgRating = totalRating / widget.data.rating!.length;
     }
+    // five rating
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      if (widget.data.rating![i].star == 5) {
+        fiveRating++;
+        fiveRateList.add(widget.data.rating![i].message);
+      }
+    }
+
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      if (widget.data.rating![i].star == 4) {
+        fourRating++;
+        fourRateList.add(widget.data.rating![i].message);
+      }
+    }
+
+    // three rating
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      if (widget.data.rating![i].star == 3) {
+        threeRating++;
+        threeRateList.add(widget.data.rating![i].message);
+      }
+    }
+    // print(widget.data.like);
+    // two rating
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      if (widget.data.rating![i].star == 2) {
+        twoRating++;
+        twoRateList.add(widget.data.rating![i].message);
+      }
+    }
+    //one rating
+    for (int i = 0; i < widget.data.rating!.length; i++) {
+      if (widget.data.rating![i].star == 1) {
+        oneRating++;
+        threeRateList.add(widget.data.rating![i].message);
+      }
+    }
   }
 
   UserServices userService = Get.put(UserServices());
@@ -61,49 +120,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 229, 223, 223),
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(
-              right: 4,
-              top: 3,
-              left: 4,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.menu),
-                      iconSize: 34,
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
-                      iconSize: 34,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 34,
-                      icon: const Icon(Icons.shopping_cart),
-                    ),
-                    const CircleAvatar(
-                      radius: 18,
-                      backgroundColor: Colors.black,
-                      child: Text('J'),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        appBar: appbar(),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
@@ -132,8 +149,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       scrollDirection: Axis.horizontal,
                       controller: controller,
                       itemBuilder: (context, index) {
-                        // TvModel item = tvModel[index];
-
+                        // print('jack${widget.data.like.toString()}');
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 6),
@@ -189,7 +205,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (int i = 0; i < productModel.length; i++)
+                    for (int i = 0; i < widget.data.images.length; i++)
                       buildIndicator(currentIndex == i)
                   ],
                 ),
@@ -214,20 +230,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 9,
                 ),
-                  Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                        Text(avgRating.round().toString()),
+                    Text(
+                      avgRating.toStringAsFixed(1).toString(),
+                    ),
                     const SizedBox(
                       width: 4,
                     ),
                     RatingButton(
-                      rating:avgRating ,
+                      rating: avgRating,
                     ),
                     const SizedBox(
                       width: 4,
                     ),
-                    const Text('(1,499)'),
+                    Text('(${widget.data.rating!.length})'),
                   ],
                 ),
                 const SizedBox(
@@ -310,10 +328,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   margin: const EdgeInsets.all(9),
                   child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: tvModel.length,
+                      // itemCount: tvModel.length,
+                      itemCount: 8,
                       itemBuilder: (context, index) {
-                        // String key = model.jack.keys.elementAt(index);
-                        TvModel item = tvModel[index];
                         return Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -323,28 +340,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                           height: 40,
                           child: Row(
-                            children: [
-                              Container(
-                                height: 40,
-                                color: const Color.fromARGB(255, 206, 203, 203),
-                                width: MediaQuery.of(context).size.width * 0.36,
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(tvModel[index]
-                                        .productDetails
-                                        .toString())),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  // width: MediaQuery.of(context).size.width * 0.50,
-                                  color: Colors.white,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(item.productDetails.toString()),
-                                  ),
-                                ),
-                              )
-                            ],
+                            children: [Text(oneRating.toString())],
                           ),
                         );
                       }),
@@ -356,24 +352,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: [
                       const Text(
                         'Ratings & Reviews',
+                        // '$fiveRating',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(RatingScreen(product: widget.data));
-                        },
-                        child: const GlobalContainer(
-                          height: 30,
-                          width: 120,
-                          borderWidth: 1.0,
-                          radius: 10,
-                          child: Text(
-                            'Rate product',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          textStyle: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
+                        onPressed: () {
+                          Get.to(
+                            RatingScreen(
+                              product: widget.data,
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Rate Product',
                         ),
                       ),
                     ],
@@ -419,23 +420,125 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 7,
                 ),
                 const Text(
-                  'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all   belong to the English-language edition; this share is d',
+                  'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all   belong to the English-language edition;',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    letterSpacing: 1,
+                    letterSpacing: 0,
                   ),
                 ),
                 const SizedBox(
                   height: 9,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      color: Colors.black,
+                      width: 120,
+                      child: const Text(
+                        'Jayant Guru shrivastava ',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                likesProduct();
+                              },
+                              child: const Icon(
+                                Icons.thumb_up,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              widget.data.like.toString(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                disLikeProduct();
+                              },
+                              child: const Icon(
+                                Icons.thumb_down,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(widget.data.disLike.toString()),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                const Text('Certified AmoYou'),
                 const Text(
                   'Related Products',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 19,
                   ),
+                ),
+                GestureDetector(
+                  onTap: () => {
+                    Get.to(
+                      AllReviews(
+                        data: widget.data,
+                      ),
+                    ),
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 0.3,
+                      ),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        'See all ${widget.data.rating!.length} reviews',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      trailing: const Icon(CupertinoIcons.forward),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 90,
+                  child: ListView.builder(
+                      itemCount: 6,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 4),
+                          child: CachedNetImage(
+                            height: 60,
+                            width: 60,
+                            imageUrl: cartItems[index].image.toString(),
+                          ),
+                        );
+                      }),
                 ),
               ],
             ),

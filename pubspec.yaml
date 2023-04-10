@@ -63,6 +63,7 @@ dependencies:
   icons_plus: ^4.0.0
   font_awesome_flutter: ^10.4.0
   badges: ^3.0.2
+  image_picker: ^0.8.7+1
 
 dev_dependencies:
   flutter_test:

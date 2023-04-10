@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/User/widgets/cartproduct.dart';
-import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 
 import '../../../GlobalWidgets/container.dart';
@@ -31,7 +30,17 @@ class MyCart extends StatelessWidget {
     controller.sink.add(userProvider.user.cart);
     return Scaffold(
       // backgroundColor: Colors.amber,
-      appBar: appbar(),
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text(
+          'My Cart',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 19,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
           child: StreamBuilder(
         stream: controller.stream,
@@ -44,6 +53,8 @@ class MyCart extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
+            // final d = snapshot.data.length;//
+            //  print( d['name']);
             return ViewPage();
             // LikeCounter(stream.data.value);
           } else {
@@ -80,9 +91,12 @@ class ViewPage extends StatelessWidget {
   ViewPage({super.key});
 
   UserProvider userProvider = Get.put(UserProvider());
+  StreamController controller = StreamController();
   int sum = 0;
+
   @override
   Widget build(BuildContext context) {
+    final ca = controller.sink.add(userProvider.user.cart);
     userProvider.user.cart
         .map((e) => sum += e['quantity'] * e['product']['price'] as int)
         .toList();
@@ -97,6 +111,7 @@ class ViewPage extends StatelessWidget {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemCount: userProvider.user.cart.length,
+            // itemCount: ca.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -131,7 +146,7 @@ class ViewPage extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
             Text(
-              '₹$gst',
+              '₹${gst.toStringAsFixed(2)}',
               style: const TextStyle(
                   color: Color.fromARGB(153, 7, 4, 4),
                   fontSize: 17,
@@ -149,7 +164,7 @@ class ViewPage extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                '₹$discount',
+                '₹${discount.toStringAsFixed(2)}',
                 style: const TextStyle(
                     color: Color.fromARGB(153, 5, 3, 3),
                     fontSize: 17,
@@ -168,7 +183,7 @@ class ViewPage extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                '₹$amountToBePaid',
+                '₹${amountToBePaid.toStringAsFixed(2)}',
                 style: const TextStyle(
                     color: Color.fromARGB(153, 0, 0, 0),
                     fontSize: 17,
