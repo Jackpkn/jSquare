@@ -63,7 +63,7 @@ class HeadTabs extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  controller.toggleTabs();
+                  controller.tabStatus.toggle();
                 }),
             GestureDetector(
               child: Container(
@@ -106,7 +106,7 @@ class HeadTabs extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                controller.toggleTabs();
+                controller.tabStatus.toggle();
               },
             ),
           ],

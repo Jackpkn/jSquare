@@ -18,10 +18,10 @@ class AdminCategoryProvider with ChangeNotifier {
     required int strPrice,
   }) async {
     try {
-      List<String> imageUrls = [];
+      // List<String> imageUrls = [];
       CategoryModel categoryModel = CategoryModel(
         types: types,
-        image: imageUrls,
+        image: '',
         categoryName: categoryName,
         strPrice: strPrice,
       );
@@ -38,9 +38,9 @@ class AdminCategoryProvider with ChangeNotifier {
       httpErrorHandle(
         response: response,
         onSuccess: () async {
-          Get.find<UserProvider>().setCategoryModel(
-            response.body,
-          );
+          // Get.find<UserProvider>().setCategoryModel(
+          //   response.body,
+          // );
         },
       );
     } catch (e) {
@@ -49,37 +49,37 @@ class AdminCategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<CategoryModel>> getCategoryProduct() async {
-    List<CategoryModel> categoryList = [];
-    try {
-      const url = 'http://10.2.100.41:3000/category/get-all-product';
-      http.Response response = await http.get(
-        Uri.parse(url),
-        headers: <String, String>{
-          'Content-type': 'application/json; charset=UTF-8',
-          // 'x-auth-token': userProvider.user.token
-        },
-      );
+  // Future<List<CategoryModel>> getCategoryProduct() async {
+  //   List<CategoryModel> categoryList = [];
+  //   try {
+  //     const url = 'http://10.2.100.41:3000/category/get-all-product';
+  //     http.Response response = await http.get(
+  //       Uri.parse(url),
+  //       headers: <String, String>{
+  //         'Content-type': 'application/json; charset=UTF-8',
+  //         // 'x-auth-token': userProvider.user.token
+  //       },
+  //     );
 
-      httpErrorHandle(
-        response: response,
-        onSuccess: () {
-          for (int i = 0; i < jsonDecode(response.body).length; i++) {
-            categoryList.add(
-              CategoryModel.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
-              ),
-            );
-          }
-        },
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    return categoryList;
-  }
+  //     httpErrorHandle(
+  //       response: response,
+  //       onSuccess: () {
+  //         for (int i = 0; i < jsonDecode(response.body).length; i++) {
+  //           categoryList.add(
+  //             CategoryModel.fromJson(
+  //               jsonEncode(
+  //                 jsonDecode(response.body)[i],
+  //               ),
+  //             ),
+  //           );
+  //         }
+  //       },
+  //     );
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  //   return categoryList;
+  // }
 
   Future<void> deleteCategoryProduct({
     required CategoryModel categoryModel,

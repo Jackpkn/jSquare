@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_collection_literals
+// ignore_for_file: prefer_collection_literals, must_be_immutable
 
 import 'package:flutter/material.dart';
 
@@ -77,12 +77,13 @@ class _AllReviewsState extends State<AllReviews>
         threeRateList.add(widget.data.rating![i].message);
       }
     }
-    List allList = [fiveRateList, threeRateList, twoRateList]
-        .expand((element) => element)
-        .toList();
 
+    // List allList = [fiveRateList, threeRateList, twoRateList]
+    //     .expand((element) => element)
+    //     .toList();
+    // debugPrint(allList as String?);
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(context: context),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 0,
@@ -199,6 +200,7 @@ class _AllReviewsState extends State<AllReviews>
                           ),
                           ListView.builder(
                             itemCount: fiveRateList.length,
+                            // itemCount: j.length,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {
@@ -324,7 +326,8 @@ class _AllReviewsState extends State<AllReviews>
   }
 }
 
-//I dont know much as i used to have a 17 inch and 60hz monitor but after buying this it feelslike i have the smoothest PC in the world (i know thre are better monitors and stuff but pretty good good for a gamer) but the'
+//I don't know much as i used to have a 17 inch and 60hz monitor but after buying this it fee like i have the smoothest PC in the world (
+//i know there are better monitors and stuff but pretty good good for a gamer) but the'
 class ListReview extends StatelessWidget {
   const ListReview({
     super.key,
@@ -368,7 +371,10 @@ class ListReview extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
-                    color: Colors.black, width: 1.0, style: BorderStyle.solid),
+                  color: Colors.black,
+                  width: 1.0,
+                  style: BorderStyle.solid,
+                ),
                 borderRadius: BorderRadius.circular(4),
               ),
               alignment: Alignment.center,
@@ -381,7 +387,9 @@ class ListReview extends StatelessWidget {
                     child: Text(
                       index.rating.toString(),
                       style: const TextStyle(
-                          fontSize: 9.8, fontWeight: FontWeight.w600),
+                        fontSize: 9.8,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const SizedBox(

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class IconController extends GetxController {
@@ -10,4 +11,10 @@ class IconController extends GetxController {
   }
 }
 
- 
+class ImageController extends ChangeNotifier {
+  var image ;
+  Future setImage(var file) async {
+    image = file;
+    notifyListeners();
+  }
+}

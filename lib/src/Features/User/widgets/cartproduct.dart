@@ -1,10 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, unused_local_variable
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jsquare/src/Features/User/Services/user_services.dart';
+import 'package:jsquare/src/Features/category/services/category_services.dart';
 import 'package:jsquare/src/models/productmodels.dart';
 
 import 'package:jsquare/src/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 
@@ -20,25 +22,33 @@ class CartProduct extends StatefulWidget {
 }
 
 class _CartProductState extends State<CartProduct> {
-  UserProvider userProvider = Get.put(UserProvider());
+  // UserProvider userProvider = Get.put(UserProvider());
+
   UserServices userServices = Get.put(UserServices());
+
   void increaseQuantity(Product product) {
-    userServices.increaseQuantity(product: product);
+    userServices.increaseQuantity(product: product, context: context);
   }
 
+  // final UserController cartServices = Use();
   void decreaseQuantity(Product product) {
-    userServices.decreaseQuantity(product: product);
+    userServices.decreaseQuantity(product: product, context: context);
   }
 
-  void deleteProduct(Product product) {
-    userServices.deleteAddToCartProduct(product: product);
-  }
+  CategoryServices categoryServices = CategoryServices();
+  // void deleteProduct(Product product) {
+  //   cartServices.deleteAddToCartProduct(product: product, onSuccess: () {}, context: context);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    // final userPro = Provider.of<UserC>(context, listen: false).user;
     final productCart = userProvider.user.cart[widget.index];
+    // final productCart = userPro.cart[widget.index];
+    // print(productCart);
     final product = Product.fromMap(productCart['product']);
-
+    // userServices.productList.add(product);
     final quantity = productCart['quantity'];
 
     return Column(
@@ -75,7 +85,7 @@ class _CartProductState extends State<CartProduct> {
                 children: [
                   Text(
                     // 'Samsung 55 Inches 4k Neo Series Ultra HD Smart LED TV',
-                    product.description,
+                    product.description.toString(),
                     // overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 18,
@@ -160,7 +170,11 @@ class _CartProductState extends State<CartProduct> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  deleteProduct(product);
+                                  // deleteProduct(product);
+                                  userServices.deleteAddToCartProduct(
+                                    product: product,
+                                    context: context,
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.delete,
@@ -181,6 +195,7 @@ class _CartProductState extends State<CartProduct> {
                                     InkWell(
                                       // decrease quantity
                                       onTap: () => decreaseQuantity(product),
+                                      // onTap: () => deleteProduct(product
                                       child: Container(
                                         width: 35,
                                         height: 26,
@@ -205,6 +220,7 @@ class _CartProductState extends State<CartProduct> {
                                         alignment: Alignment.center,
                                         child: Text(
                                           // '',
+
                                           quantity.toString(),
                                           style: const TextStyle(
                                             color: Colors.black,
@@ -277,21 +293,6 @@ class _CartProductState extends State<CartProduct> {
         const Divider(
           color: Colors.black,
         ),
-
-        //!  Checkout Button
-        // GlobalContainer(
-        //   height: 65,
-        //   width: MediaQuery.of(context).size.width * 0.99,
-        //   borderWidth: 1,
-        //   radius: 60,
-        //   child: const Text(
-        //     'Checkout',
-        //     style: TextStyle(
-        //       fontWeight: FontWeight.bold,
-        //       fontSize: 18,
-        //     ),
-        //   ),
-        // )
       ],
     );
   }

@@ -11,11 +11,7 @@ class ReviewModel {
 List<ReviewModel> reviewmodel = [
   ReviewModel(
     rating: 'All',
-    starColor: Colors.black,
-  ),
-  ReviewModel(
-    rating: 'All',
-    starColor: Colors.black,
+    starColor: Colors.orange,
   ),
   ReviewModel(
     rating: '5.0',

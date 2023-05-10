@@ -103,7 +103,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       height: 9,
                     ),
                     const Text(
-                      '*   Name of reciever as per aadhaar card',
+                      '★ Name of reciever as per aadhaar card',
                       style: TextStyle(
                         fontSize: 16,
                       ),

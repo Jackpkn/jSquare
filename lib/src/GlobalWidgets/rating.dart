@@ -3,13 +3,19 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingButton extends StatelessWidget {
   final double rating;
-  const RatingButton({super.key, required this.rating});
+  final bool ignoreGestures;
+  const RatingButton({
+    super.key,
+    required this.rating,
+    required this.ignoreGestures,
+  });
 
   @override
   Widget build(BuildContext context) {
     return RatingBar(
       initialRating: rating,
       direction: Axis.horizontal,
+      ignoreGestures: ignoreGestures,
       allowHalfRating: true,
       itemCount: 5,
       itemSize: 25,

@@ -113,11 +113,10 @@ class SignUpScreen extends StatelessWidget {
                   hintText: 'Enter your mobile number',
                   labelText: 'Mobile Number',
                   controller: mobileNameController,
-                   validator: (String? value) {
+                  validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return "This field can't be empty";
-                    } 
-                    else if (!value.isValidPhone) {
+                    } else if (!value.isValidPhone) {
                       return "Please enter valid phone";
                     }
                     return null;
@@ -232,12 +231,13 @@ class SignUpScreen extends StatelessWidget {
                     EasyLoading.show(status: 'Loading ..');
                     if (signUpKEY.currentState!.validate()) {
                       authService.signUp(
-                          name: firstNameController.text.trim(),
-                          password: passwordNameController.text.trim(),
-                          userName: userNameController.text.trim(),
-                          email: emailNameController.text.trim(),
-                           phone: int.parse(mobileNameController.text),
-                          );
+                        name: firstNameController.text.trim(),
+                        password: passwordNameController.text.trim(),
+                        userName: userNameController.text.trim(),
+                        email: emailNameController.text.trim(),
+                        phone: int.parse(mobileNameController.text),
+                        context: context,
+                      );
                     }
                     // EasyLoading.dismiss();
                     // if (auth == null) {

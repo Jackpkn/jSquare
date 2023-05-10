@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jsquare/src/Features/User/Services/user_services.dart';
 
 class RatingAndReviews extends StatelessWidget {
   static const String routeName = 'rating-reviews-page';
-  const RatingAndReviews({super.key});
-
+    RatingAndReviews({super.key});
+  final userServices = Get.put(UserServices());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rating & Reviews')),
-      body: const Column(
+      body: Column(
         children: [
           Row(
             children: [
-              Icon(
-                Icons.shopping_cart_checkout,
+              GestureDetector(
+                onTap: (){
+                  userServices.fetchReviews(context: context);
+                },
+                child: const Icon(
+                  Icons.shopping_cart_checkout,
+                ),
               ),
-              Text(
+              const Text(
                 'Current Orders',
                 style: TextStyle(
                   color: Colors.black,

@@ -16,7 +16,10 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginUser(
-      {required String email, required String password}) async {
-    Get.find<AuthService>().loginUser(email: email, password: password);
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    Get.find<AuthService>()
+        .loginUser(email: email, password: password, context: context);
   }
 }

@@ -45,20 +45,13 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
         builder: (_) => ProfilePage(),
       );
 
-    // case OrdersPage.routeName:
-    //   final order = routeSettings.arguments as Order;
-    //   return MaterialPageRoute(
-    //     builder: (_) => OrdersPage(
-    //       order: order,
-    //     ),
-    //   );
     case RecommendedPage.routeName:
       return MaterialPageRoute(
         builder: (_) => const RecommendedPage(),
       );
     case RatingAndReviews.routeName:
       return MaterialPageRoute(
-        builder: (_) => const RatingAndReviews(),
+        builder: (_) =>   RatingAndReviews(),
       );
     case FavouritesPage.routeName:
       return MaterialPageRoute(
@@ -73,28 +66,17 @@ Route<dynamic> generateRoutes(RouteSettings routeSettings) {
       );
     case ProductDetails.routeName:
       final data = routeSettings.arguments as Product;
-   
       return MaterialPageRoute(
         builder: (_) => ProductDetails(
           data: data,
-         
+        ),
+      );
 
-        ),
-      );
-       case OrdersPage.routeName:
-       
+    case OrdersPage.routeName:
       return MaterialPageRoute(
-        builder: (_) => const OrdersPage(
-          
-        ),
+        builder: (_) => const OrdersPage(),
       );
-    // case RatingScreen.routeName:
-    //   final data = routeSettings.arguments ;
-    //   return MaterialPageRoute(
-    //     builder: (_) => RatingScreen(
-    //       product: data,
-    //     ),
-    //   );
+
     case CheckoutPage.routeName:
       return MaterialPageRoute(
         builder: (_) => const CheckoutPage(),

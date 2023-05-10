@@ -2,18 +2,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jsquare/src/Features/Product_Details/widgets/rating_page.dart';
 import 'package:jsquare/src/Features/category/services/category_services.dart';
-import 'package:jsquare/src/GlobalWidgets/home_appbar.dart';
-import 'package:jsquare/src/models/cart_model.dart';
-import 'package:jsquare/src/GlobalWidgets/container.dart';
-import 'package:jsquare/src/GlobalWidgets/rating.dart';
-import 'package:jsquare/src/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../GlobalWidgets/allreview.dart';
 import '../../../GlobalWidgets/cached_network_image.dart';
+import '../../../GlobalWidgets/container.dart';
+import '../../../GlobalWidgets/home_appbar.dart';
+import '../../../GlobalWidgets/rating.dart';
 import '../../../models/productmodels.dart';
+import '../../../providers/user_provider.dart';
 import '../../User/Services/user_services.dart';
+import '../widgets/rating_page.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = 'productDetails';
@@ -35,19 +35,21 @@ class _ProductDetailsState extends State<ProductDetails> {
   final PageController controller = PageController();
   double avgRating = 0;
   double myRating = 0;
-  UserProvider userProvider = Get.put(UserProvider());
+  // UserProvider userProvider = Get.put(UserProvider());
+  // final userProvider = Provider.of<UserProvider>(context);
   void addToCart() {
     categoryServices.addToCart(
       product: widget.data,
+      context: context,
     );
   }
 
   void likesProduct() {
-    userService.likeProduct(product: widget.data);
+    userService.likeProduct(product: widget.data, context: context);
   }
 
   void disLikeProduct() {
-    userService.disLikeProduct(product: widget.data);
+    userService.disLikeProduct(product: widget.data, context: context);
   }
 
   double fiveRating = 0;
@@ -61,10 +63,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   List twoRateList = [];
   int oneRating = 0;
   List oneRateList = [];
+  RxInt like = 0.obs;
+  RxInt disLike = 0.obs;
   @override
   void initState() {
     super.initState();
-
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     double totalRating = 0;
     for (int i = 0; i < widget.data.rating!.length; i++) {
       totalRating += widget.data.rating![i].star;
@@ -115,14 +119,57 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   UserServices userService = Get.put(UserServices());
+  List list = [
+    {"Brand": "Samsung"},
+    {"Display size": "55 inches"},
+    {"Panel": "HDR 10+"},
+    {"Display Technology": "LED"},
+    {"Resolution": "3850 X 2160 pixels"},
+  ];
+  // bool isProductIdExists(String? id) {
+  //   for (var i in productData) {
+  //     if (i['product']['_id'] == id) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
+  bool isProductIdExists(String? id) {
+    final userProvider = Provider.of<UserProvider>(context);
+    List productData = userProvider.user.cart;
+
+    for (var i in productData) {
+      if (i['product']['_id'] == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // bool isLikedProduct(String? id) {
+  //   final productProvider =
+  //       Provider.of<ProductProvider>(context, listen: false);
+
+  //   final userProvider = Provider.of<UserProvider>(context);
+  //   List productData = userProvider.user.cart;
+  //   for (var i = 0; i < productProvider.product.length; i++) {
+
+  //   }
+
+  //   // for (var i in productData) {}
+  // }
+ 
   @override
   Widget build(BuildContext context) {
+   
     return SafeArea(
       child: Scaffold(
-        appBar: appbar(),
+        backgroundColor: const Color.fromARGB(255, 187, 179, 179),
+        appBar: appbar(context: context),
+        // appBar: AppBar(),
         body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          // physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.only(
               left: 5,
@@ -150,6 +197,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       controller: controller,
                       itemBuilder: (context, index) {
                         // print('jack${widget.data.like.toString()}');
+                        like.value = widget.data.like!;
+                        // print(like);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 6),
@@ -173,9 +222,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     onTap: () {
                                       userService.wishProduct(
                                         product: widget.data,
+                                        context: context,
                                       );
 
-                                      userService.toggleChange();
+                                      widget.data.isFavorite.toggle();
                                     },
                                     child: GlobalContainer(
                                       height: 32,
@@ -183,12 +233,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       radius: 50,
                                       borderWidth: 1.3,
                                       child: Icon(
-                                        userService.isFavourite.value
+                                        widget.data.isFavorite.value
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: userService.isFavourite.value
-                                            ? Colors.white
-                                            : Colors.red,
+                                        color: widget.data.isFavorite.value
+                                            ? Colors.pink
+                                            : Colors.white,
                                       ),
                                     ),
                                   ),
@@ -241,6 +291,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     RatingButton(
                       rating: avgRating,
+                      ignoreGestures: true,
                     ),
                     const SizedBox(
                       width: 4,
@@ -264,31 +315,54 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 9,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      addToCart();
-                    },
-                    child: GlobalContainer(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      radius: 30,
-                      borderWidth: 1.2,
-                      color: Colors.white,
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Add to Cart',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                isProductIdExists(widget.data.id)
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GlobalContainer(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          radius: 30,
+                          borderWidth: 1.2,
+                          color: Colors.white,
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Added',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            addToCart();
+                          },
+                          child: GlobalContainer(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width,
+                            radius: 30,
+                            borderWidth: 1.2,
+                            color: Colors.white,
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Add to Cart',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -307,6 +381,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -323,27 +398,31 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 200,
-                  margin: const EdgeInsets.all(9),
-                  child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      // itemCount: tvModel.length,
-                      itemCount: 8,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 0.3,
-                            ),
-                          ),
-                          height: 40,
-                          child: Row(
-                            children: [Text(oneRating.toString())],
-                          ),
-                        );
-                      }),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 4,
+                    right: 4,
+                  ),
+                  child: Table(
+                    border: TableBorder.symmetric(
+                        inside: const BorderSide(width: 1, color: Colors.blue),
+                        outside: const BorderSide(width: 1)),
+                    // defaultColumnWidth: const FixedColumnWidth(150),
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: [
+                      for (var item in list)
+                        for (var entry in item.entries)
+                          if (entry.value.isNotEmpty)
+                            TableRow(
+                              children: [
+                                Text(
+                                  entry.key,
+                                ),
+                                Text(entry.value),
+                              ],
+                            )
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -358,7 +437,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.purple,
+                          // shape: BoxShape.circle,
+                          // backgroundColor: Colors.purple,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           textStyle: const TextStyle(
@@ -380,49 +460,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 90,
-                  child: ListView.builder(
-                      itemCount: 6,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 4),
-                          child: CachedNetImage(
-                            height: 60,
-                            width: 60,
-                            imageUrl: cartItems[index].image.toString(),
-                          ),
-                        );
-                      }),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(color: Colors.green),
-                      height: 19,
-                      width: 35,
-                      child: const Text('5 ★'),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    const Text(
-                      'Highly recommended',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(
                   height: 7,
                 ),
-                const Text(
-                  'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all   belong to the English-language edition;',
-                  style: TextStyle(
-                    color: Colors.black,
+                Text(
+                  // 'The English Wikipedia is, with the Simple English Wikipedia, one of two English-language editions of Wikipedia, an online encyclopedia. It was founded on January 15, 2001, as Wikipedia first edition, and, as of February 15, 2023, has the most articles of any edition, at 6,618,258. As of February 2023, 10.9% of articles in all   belong to the English-language edition;',
+                  widget.data.description,
+                  style: const TextStyle(
+                    // color: Colors.black,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0,
@@ -462,6 +507,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             Text(
                               widget.data.like.toString(),
+                              // like.toString(),
                             ),
                           ],
                         ),
@@ -508,7 +554,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(
-                        color: Colors.black,
+                        // color: Colors.black,
                         width: 0.3,
                       ),
                     ),
@@ -523,23 +569,102 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 90,
-                  child: ListView.builder(
-                      itemCount: 6,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 4),
-                          child: CachedNetImage(
-                            height: 60,
-                            width: 60,
-                            imageUrl: cartItems[index].image.toString(),
+                GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    // crossAxisCount: 2,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    // mainAxisExtent: 370,
+                    crossAxisCount: 2,
+                    mainAxisExtent: 310,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      // height: 400,
+                      color: const Color.fromARGB(255, 169, 176, 169),
+                      // margin: const EdgeInsets.only(
+                      //     left: 2, right: 2, bottom: 3, top: 2),
+                      padding:
+                          const EdgeInsets.only(left: 1, right: 1, bottom: 1),
+                      width: MediaQuery.of(context).size.width * 0.48,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 170,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  'https://cdn.pixabay.com/photo/2023/03/29/08/19/tulips-7884877_1280.jpg',
+                                ),
+                              ),
+                            ),
                           ),
-                        );
-                      }),
-                ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 98),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Samsung 55 Inches 4k Neo Series Ultra HD Smart LED TV',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 34,
+                            right: 2,
+                            left: 3,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  avgRating.toStringAsFixed(1).toString(),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                RatingButton(
+                                  rating: avgRating,
+                                  ignoreGestures: true,
+                                ),
+                                // const Text(
+                                //   '1,499',
+                                //   style: TextStyle(fontSize: 10),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 1,
+                            left: 3,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: const GlobalContainer(
+                                height: 35,
+                                width: 181,
+                                borderWidth: 1.4,
+                                radius: 10,
+                                color: Colors.white,
+                                child: Text(
+                                  'Add to Cart',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
@@ -572,3 +697,4 @@ class _ProductDetailsState extends State<ProductDetails> {
 
  
 /// ? List.
+ // productList data will come int eh list fist take productList and update on every instance changeNotifier 

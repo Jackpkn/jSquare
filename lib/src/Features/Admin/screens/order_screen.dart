@@ -21,6 +21,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void fetchOrders() async {
     orders = (await adminController.getAllProduct()).cast<Order>();
+    // print(orders);
     setState(() {});
   }
 
@@ -30,8 +31,7 @@ class _OrderScreenState extends State<OrderScreen> {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : 
-         GridView.builder(
+        : GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: orders!.length,
             ),

@@ -3,12 +3,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jsquare/src/Features/auth/Auth_controller/logincontroller.dart';
-import 'package:jsquare/src/Features/auth/services/auth_services.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 
 import '../../../controller/icon_visible_controller.dart';
 import '../../../GlobalWidgets/textfromfield.dart';
+import '../Auth_controller/logincontroller.dart';
+import '../services/auth_services.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = 'login-screen';
@@ -60,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                         // controller:
                         //     Get.find<SignUpController>().emailController,
                         controller: Get.find<LoginController>().emailController,
+
                         // controller: emailController,
                         hintText: 'Enter your name',
                         labelText: 'Email',
@@ -128,11 +129,10 @@ class LoginScreen extends StatelessWidget {
                           if (_key.currentState!.validate()) {
                             final controller = Get.find<LoginController>();
                             controller.loginUser(
-                              email: controller.emailController.text.trim(),
-                              password:
-                                  controller.passwordController.text.trim(),
-                            );
-                             
+                                email: controller.emailController.text.trim(),
+                                password:
+                                    controller.passwordController.text.trim(),
+                                context: context);
                           }
                         },
                         child: GlobalContainer(
@@ -164,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.find<AuthService>().googleSign();
+                          Get.find<AuthService>().googleLogin();
                         },
                         child: GlobalContainer(
                           height: 56,

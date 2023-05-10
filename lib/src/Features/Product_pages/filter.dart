@@ -87,8 +87,11 @@ class _FilterState extends State<Filter> {
                           children: List.generate(4, (index) {
                             return Row(
                               children: [
-                                Checkbox(value: false, onChanged: (v) {}),
-                                const RatingButton(rating: 5),
+                              Checkbox(value: false, onChanged: (v) {}),
+                                const RatingButton(
+                                  rating: 5,
+                                  ignoreGestures: true,
+                                ),
                               ],
                             );
                           }),

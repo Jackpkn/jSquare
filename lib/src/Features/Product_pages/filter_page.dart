@@ -170,6 +170,7 @@ class FilterPage extends StatelessWidget {
                                                   ),
                                                   RatingButton(
                                                     rating: 5,
+                                                    ignoreGestures: true,
                                                   )
                                                 ],
                                               ),

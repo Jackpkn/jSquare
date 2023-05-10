@@ -3,24 +3,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:jsquare/src/Features/User/controllers/user_controller.dart';
 import 'package:jsquare/src/constants/httperror_handling.dart';
 import 'package:jsquare/src/models/order.dart';
 import 'package:jsquare/src/models/productmodels.dart';
 import 'package:jsquare/src/models/user_models.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-final userProvider = Get.put(UserProvider());
-UserController userController = Get.put(UserController());
+// final userProvider = Get.put(UserProvider());
 
-class UserServices extends GetxController {
-  Future decreaseQuantity({required Product product}) async {
-    // userController._streamController.stream;
+class UserServices {
+  // RxInt counter = 0.obs;
+  // var productList = <Product>[].obs;
+// var productList=  List<Product>.of(elements).obs;
+  Future decreaseQuantity({
+    required Product product,
+    required BuildContext context,
+  }) async {
     try {
       // var url = 'http://10.2.100.41:3000/api/remove-from-cart/${product.id}';
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
       http.Response response = await http.delete(
-        Uri.parse("http://10.2.100.41:3000/api/remove-from-cart/${product.id}"),
+        Uri.parse("http://localhost:3000/api/remove-from-cart/${product.id}"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
@@ -42,10 +47,12 @@ class UserServices extends GetxController {
 
   Future deleteAddToCartProduct({
     required Product product,
+    required BuildContext context,
   }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       // var uri = 'http://10.2.100.41:3000/api/delete-cart/${product.id}';
-      var uri = 'http://10.2.100.41:3000/api/delete/${product.id}';
+      var uri = 'http://localhost:3000/api/delete/${product.id}';
 
       http.Response response = await http.delete(
         Uri.parse(uri),
@@ -60,8 +67,6 @@ class UserServices extends GetxController {
           User user = userProvider.user
               .copyWith(cart: jsonDecode(response.body)['cart']);
           userProvider.setUserFromModel(user);
-
-          EasyLoading.showSuccess('Success fully ');
         },
       );
     } catch (e) {
@@ -70,9 +75,12 @@ class UserServices extends GetxController {
     }
   }
 
-  Future increaseQuantity({required Product product}) async {
+  Future increaseQuantity(
+      {required Product product, required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const uri = 'http://10.2.100.41:3000/api/add-to-cart';
+      // const uri = 'http://10.2.100.61:3000/api/add-to-cart';
+      const uri = 'http://localhost:3000/api/add-to-cart';
 
       http.Response response = await http.post(Uri.parse(uri),
           body: jsonEncode({
@@ -99,20 +107,27 @@ class UserServices extends GetxController {
   Future placeOrder({
     required String address,
     required double totalSum,
+    required BuildContext context,
   }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const url = 'http://10.2.100.41:3000/api/user-order';
+      // const url = 'http://10.2.100.61:3000/api/user-order';
+      const url = 'http://localhost:3000/api/user-order';
 
-      http.Response response = await http.post(Uri.parse(url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
-          },
-          body: jsonEncode({
+      http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode(
+          {
             'cart': userProvider.user.cart,
             'address': address,
             'totalPrice': totalSum
-          }));
+          },
+        ),
+      );
       httpErrorHandle(
         response: response,
         onSuccess: () {
@@ -121,16 +136,17 @@ class UserServices extends GetxController {
           userProvider.setUserFromModel(user);
         },
       );
-      update();
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future<List<Order>> getOrder() async {
+  Future<List<Order>> getOrder({required BuildContext context}) async {
     List<Order> orderList = [];
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const url = 'http://10.2.100.41:3000/api/get-order';
+      // const url = 'http://10.2.100.61:3000/api/get-user-order';
+      const url = 'http://localhost:3000/api/get-user-order';
 
       http.Response response = await http.get(
         Uri.parse(url),
@@ -142,6 +158,7 @@ class UserServices extends GetxController {
       httpErrorHandle(
         response: response,
         onSuccess: () {
+          // print(response.body);
           for (int i = 0; i < jsonDecode(response.body).length; i++) {
             orderList.add(
               Order.fromJson(
@@ -153,22 +170,24 @@ class UserServices extends GetxController {
           }
         },
       );
-      update();
+      // update();
     } catch (e) {
       debugPrint(e.toString());
     }
     return orderList;
   }
 
-  Future<void> updateProfile({
-    required String name,
-    required String email,
-    required String userName,
-    required int phone,
-  }) async {
+  Future<void> updateProfile(
+      {required String name,
+      required String email,
+      required String userName,
+      required int phone,
+      required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       final id = userProvider.user.id;
-      final url = 'http://10.2.100.41:3000/auth/update-user-profile/$id';
+      // final url = 'http://10.2.100.61:3000/auth/update-user-profile/$id';
+      final url = 'http://localhost:3000/auth/update-user-profile/$id';
       http.Response response = await http.put(
         Uri.parse(
           url,
@@ -194,7 +213,6 @@ class UserServices extends GetxController {
           EasyLoading.showSuccess(' your address Successfully update');
         },
       );
-      update();
     } catch (e) {
       debugPrint(e.toString());
       EasyLoading.showError(e.toString());
@@ -206,10 +224,16 @@ class UserServices extends GetxController {
     isFavourite.value = !isFavourite.value;
   }
 
-  Future<void> wishProduct({required Product product}) async {
+  Future<void> wishProduct({
+    required Product product,
+    required BuildContext context,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const url = 'http://10.2.100.41:3000/api/addToWishList';
+      // const url = 'http://10.2.100.61:3000/api/addToWishList';
+      const url = 'http://localhost:3000/api/addToWishList';
       //  const url = 'http://10.2.100.41:3000/api/favourite';
+      //  const url = 'http://10.2.100.61:3000/wishlist';
       http.Response response = await http.put(
         Uri.parse(url),
         headers: <String, String>{
@@ -222,13 +246,15 @@ class UserServices extends GetxController {
           },
         ),
       );
+      // print(response.body);
       httpErrorHandle(
         response: response,
         onSuccess: () {
           User user = userProvider.user
               .copyWith(wishlist: jsonDecode(response.body)['wishlist']);
           userProvider.setUserFromModel(user);
-          EasyLoading.showSuccess('success');
+          // print(user);
+          EasyLoading.showSuccess('You have successfully linked to');
         },
       );
     } catch (e) {
@@ -237,10 +263,12 @@ class UserServices extends GetxController {
     }
   }
 
-  Future<List<dynamic>> getWishProduct() async {
+  Future<List<dynamic>> getWishProduct({required BuildContext context}) async {
     List<dynamic> products = [];
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const url = 'http://10.2.100.41:3000/api/getWishProduct';
+      // const url = 'http://10.2.100.61:3000/api/getWishProduct';
+      const url = 'http://localhost:3000/api/getWishProduct';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: <String, String>{
@@ -251,7 +279,11 @@ class UserServices extends GetxController {
       httpErrorHandle(
         response: response,
         onSuccess: () {
-          products = json.decode(response.body);
+          // products = json.decode(response.body);
+          // print(response.body);
+          User user = userProvider.user
+              .copyWith(wishlist: jsonDecode(response.body)['wishlist']);
+          userProvider.setUserFromModel(user);
         },
       );
     } catch (e) {
@@ -261,9 +293,16 @@ class UserServices extends GetxController {
     return products;
   }
 
-  Future<void> likeProduct({required Product product}) async {
+  // RxInt like = 0.obs;
+  // RxInt dislike = 0.obs;
+  Future<void> likeProduct({
+    required Product product,
+    required BuildContext context,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      var url = 'http://10.2.100.41:3000/api/like/${product.id}';
+      // var url = 'http://10.2.100.61:3000/api/like/${product.id}';
+      var url = 'http://localhost:3000/api/like/${product.id}';
       http.Response response = await http.put(
         Uri.parse(url),
         headers: <String, String>{
@@ -271,17 +310,56 @@ class UserServices extends GetxController {
           'x-auth-token': userProvider.user.token,
         },
       );
-      httpErrorHandle(response: response, onSuccess: () {});
+      httpErrorHandle(
+        response: response,
+        onSuccess: () {
+          // like++;
+          // List data = jsonDecode(response.body);
+          // data.removeWhere((element) => element.id == product.id);
+          // print(response.body);
+          // final d = data.map((e) => Product.fromJson(e)).toList();
+        },
+      );
     } catch (e) {
       debugPrint(e.toString());
       EasyLoading.showError(e.toString());
     }
   }
-  //  
-   Future<void> disLikeProduct({required Product product}) async {
+
+  //
+  Future<void> disLikeProduct({
+    required Product product,
+    required BuildContext context,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      var url = 'http://10.2.100.41:3000/api/disLike/${product.id}';
+      // var url = 'http://10.2.100.61:3000/api/disLike/${product.id}';
+      var url = 'http://localhost:3000/api/disLike/${product.id}';
       http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(
+          response: response,
+          onSuccess: () {
+            // print(response.body);
+
+          });
+    } catch (e) {
+      debugPrint(e.toString());
+      EasyLoading.showError(e.toString());
+    }
+  }
+
+  Future fetchReviews({required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      // var url = 'http://10.2.100.61:3000/api/get-reviews';
+      var url = 'http://localhost:3000/api/get-reviews';
+      http.Response response = await http.get(
         Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

@@ -31,7 +31,7 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(context: context),
       body: Form(
         key: _key,
         child: Column(
@@ -93,10 +93,10 @@ class _RatingScreenState extends State<RatingScreen> {
                     EasyLoading.showError('Please rate the product');
                   } else {
                     productServices.ratingProduct(
-                      product: widget.product,
-                      star: star,
-                      message: messageController.text.trim(),
-                    );
+                        product: widget.product,
+                        star: star,
+                        message: messageController.text.trim(),
+                        context: context);
                   }
                 }
               },

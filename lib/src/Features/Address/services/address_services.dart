@@ -43,7 +43,7 @@ class AddressServices extends GetxController {
       );
 
       http.Response response = await http.post(
-        Uri.parse('http://10.2.100.41:3000/auth/save-user-address'),
+        Uri.parse('http://localhost:3000/auth/save-user-address'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,

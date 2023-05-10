@@ -5,38 +5,41 @@ import 'package:get/get.dart';
 import 'package:jsquare/src/Features/User/Services/user_services.dart';
 import 'package:jsquare/src/GlobalWidgets/container.dart';
 import 'package:jsquare/src/component/extension.dart';
+import 'package:provider/provider.dart';
 
 import '../../../GlobalWidgets/textfromfield.dart';
 import '../../../models/user_models.dart';
+import '../../../providers/user_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String routeName = 'profile-page';
   ProfilePage({super.key});
 
-  TextEditingController nameController =
-      TextEditingController(text: userProvider.user.name);
-  TextEditingController emailController =
-      TextEditingController(text: userProvider.user.email);
-  TextEditingController userNameController =
-      TextEditingController(text: userProvider.user.userName);
-  TextEditingController mobileController =
-      TextEditingController(text: userProvider.user.phone.toString());
   UserServices userServices = Get.put(UserServices());
   final _key = GlobalKey<FormState>();
   String? validateMobile(String value) {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
-          return 'Please enter mobile number';
-    }
-    else if (!regExp.hasMatch(value)) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
     }
-   return null; 
-}  
+    return null;
+  }
+
   late User user;
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    TextEditingController nameController =
+        TextEditingController(text: userProvider.user.name);
+    TextEditingController emailController =
+        TextEditingController(text: userProvider.user.email);
+    TextEditingController userNameController =
+        TextEditingController(text: userProvider.user.userName);
+    TextEditingController mobileController =
+        TextEditingController(text: userProvider.user.phone.toString());
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -131,11 +134,10 @@ class ProfilePage extends StatelessWidget {
                   obscureText: false,
                   maxLines: 1,
                   controller: mobileController,
-                   validator: (String? value) {
+                  validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return "This field can't be empty";
-                    } 
-                    else if (!value.isValidPhone) {
+                    } else if (!value.isValidPhone) {
                       return "Please enter valid phone";
                     }
                     return null;
@@ -148,11 +150,11 @@ class ProfilePage extends StatelessWidget {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       userServices.updateProfile(
-                        name: userProvider.user.name,
-                        email: emailController.text.trim(),
-                        userName: userNameController.text.trim(),
-                        phone: int.parse(mobileController.text),
-                      );
+                          name: userProvider.user.name,
+                          email: emailController.text.trim(),
+                          userName: userNameController.text.trim(),
+                          phone: int.parse(mobileController.text),
+                          context: context);
                     }
                   },
                   child: GlobalContainer(

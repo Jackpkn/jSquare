@@ -7,11 +7,14 @@ import 'package:jsquare/src/Features/User/Services/user_services.dart';
 import 'package:jsquare/src/Features/category/services/category_services.dart';
 import 'package:jsquare/src/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../../../GlobalWidgets/cached_network_image.dart';
 import '../../../GlobalWidgets/container.dart';
 import '../../../GlobalWidgets/rating.dart';
 import '../../../constants/httperror_handling.dart';
+import '../../../models/productmodels.dart';
+import '../../../models/user_models.dart';
 import '../../Product_Details/screens/product_details_page.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -23,11 +26,14 @@ class FavouritesPage extends StatefulWidget {
 }
 
 class _FavouritesPageState extends State<FavouritesPage> {
-  UserProvider userProvider = Get.put(UserProvider());
-  List<dynamic> products = [];
+  // UserProvider userProvider = Get.put(UserProvider());
+
+  // List<dynamic> products = [];
   getWishProduct() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      const url = 'http://10.2.100.41:3000/api/getWishProduct';
+      // const url = 'http://10.2.100.61:3000/api/getWishProduct';
+      const url = 'http://localhost:3000/api/getWishProduct';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: <String, String>{
@@ -35,15 +41,19 @@ class _FavouritesPageState extends State<FavouritesPage> {
           'x-auth-token': userProvider.user.token,
         },
       );
+      // print(response.body);
       httpErrorHandle(
         response: response,
         onSuccess: () {
-          final List<dynamic> parsed = json.decode(response.body)['wishlist'];
-
-          setState(() {
-            products = parsed;
-          });
-          debugPrint(parsed.toString());
+          // final List<dynamic> parsed = json.decode(response.body)['wishlist'];
+          User user = userProvider.user
+              .copyWith(wishlist: jsonDecode(response.body)['wishlist']);
+          userProvider.setUserFromModel(user);
+          // print(user.wishlist);
+          // setState(() {
+          //   products = parsed;
+          // });
+          // debugPrint(parsed.toString());
         },
       );
     } catch (e) {
@@ -53,7 +63,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
   }
 //  late StreamController _streamController;
 //  late Timer _timer;
- 
 
   @override
   void initState() {
@@ -62,48 +71,51 @@ class _FavouritesPageState extends State<FavouritesPage> {
   }
 
   UserServices userServices = Get.put(UserServices());
-CategoryServices categoryServices =Get.put(CategoryServices());
+  CategoryServices categoryServices = Get.put(CategoryServices());
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Orders'),
+        title: const Text('Your favourite'),
       ),
-      body: products != null
-          ? SingleChildScrollView(
+      body:   SingleChildScrollView(
               child: Column(
                 children: [
                   ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: products.length,
+                      // itemCount: products.length,
+                      itemCount: userProvider.user.wishlist.length,
                       itemBuilder: (context, index) {
-                        final data = products[index];
-                        //  print(data['name']);
-                   
-                    
-                        return Padding(
+                        // final data = products[index];
+                        // print(data);
+                        final productCart = userProvider.user.cart[index];
+                         debugPrint(productCart);
+                        final product = Product.fromMap(productCart['product']);
+                        // print(product);
+                        return Padding(   
                           padding: const EdgeInsets.only(
                               left: 3, right: 3, bottom: 9, top: 9),
                           child: SizedBox(
                             height: 190,
                             child: Row(
                               children: [
-                              
                                 //  const Text('jack'),
                                 GestureDetector(
                                   onTap: () {
                                     Get.toNamed(
                                       ProductDetails.routeName,
-                                      arguments: data,
+                                      arguments: product,
                                     );
                                   },
                                   child: Stack(
                                     children: [
-                                     
                                       CachedNetImage(
-                                        imageUrl: data['images'][0],
+                                        // imageUrl: data['images'][0],
+                                        imageUrl: product.images[0],
                                         height: 190,
                                         width:
                                             MediaQuery.of(context).size.width *
@@ -116,9 +128,10 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                           () => GestureDetector(
                                             onTap: () {
                                               userServices.wishProduct(
-                                                product: data,
+                                                product: product,
+                                                context: context,
                                               );
-                                        
+
                                               userServices.toggleChange();
                                             },
                                             child: GlobalContainer(
@@ -154,7 +167,9 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                         Align(
                                           alignment: Alignment.topCenter,
                                           child: Text(
-                                            data['description'].toString(),
+                                            // data['description'].toString(),
+                                            product.description,
+
                                             style: const TextStyle(
                                               fontSize: 18,
                                             ),
@@ -163,11 +178,10 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                         const SizedBox(
                                           height: 6,
                                         ),
-                                          const Align(
+                                        const Align(
                                           alignment: Alignment.center,
                                           child: Row(
                                             children: [
-                                                 
                                               Text(
                                                 '5',
                                                 style: TextStyle(fontSize: 16),
@@ -177,6 +191,7 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                               ),
                                               RatingButton(
                                                 rating: 5,
+                                                ignoreGestures: true,
                                               ),
                                               Text('(1,499)')
                                             ],
@@ -189,7 +204,8 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                           top: 128,
                                           left: 5,
                                           child: Text(
-                                            '₹${data['price'].toString()} per month',
+                                            // '₹${data['price'].toString()} per month',
+                                            '₹${product.price.toString()} per month',
                                             style:
                                                 const TextStyle(fontSize: 18),
                                           ),
@@ -204,7 +220,8 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                                           child: GestureDetector(
                                             onTap: () {
                                               categoryServices.addToCart(
-                                                product: data['id'],
+                                                product: product,
+                                                context: context,
                                               );
                                             },
                                             child: const GlobalContainer(
@@ -232,7 +249,7 @@ CategoryServices categoryServices =Get.put(CategoryServices());
                 ],
               ),
             )
-          : const Center(child: CircularProgressIndicator()),
+           ,
     );
   }
 }

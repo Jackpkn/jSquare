@@ -88,15 +88,15 @@ class AdminController extends GetxController {
       httpErrorHandle(
         response: response,
         onSuccess: () {
-          for (int i = 0; i < jsonDecode(response.body).length; i++) {
-            productList.add(
-              Product.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
-              ),
-            );
-          }
+          // for (int i = 0; i < jsonDecode(response.body).length; i++) {
+          //   productList.add(
+          //     Product.fromJson(
+          //       jsonEncode(
+          //         jsonDecode(response.body)[i],
+          //       ),
+          //     ),
+          //   );
+          // }
         },
       );
     } catch (e) {

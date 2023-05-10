@@ -76,6 +76,7 @@ class _ProductDetailsWidgetState extends State<ProductCategoryWidget> {
                           ),
                           RatingButton(
                             rating: 5,
+                            ignoreGestures: true,
                           )
                         ],
                       ),

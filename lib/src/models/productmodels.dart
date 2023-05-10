@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:get/get.dart';
+
 import 'package:jsquare/src/models/rating.dart';
 
 class Product {
@@ -14,7 +16,10 @@ class Product {
   final int? disLike;
   //specification
   final String? id;
+  // final List<Rating>? rating;
   final List<Rating>? rating;
+  List <dynamic> ?reviews;
+  //
   final String? totalRating;
   var isFavorite = false.obs;
   Product({
@@ -27,6 +32,7 @@ class Product {
     this.like,
     this.disLike,
     this.id,
+    this.reviews,
     this.rating,
     this.totalRating,
   });
@@ -43,6 +49,7 @@ class Product {
       'disLike': disLike,
       'id': id,
       'rating': rating,
+      'reviews': reviews,
       'totalRating': totalRating
     };
   }
@@ -72,4 +79,42 @@ class Product {
 
   factory Product.fromJson(String source) =>
       Product.fromMap(json.decode(source));
+
+  Product copyWith({
+    String? name,
+    String? description,
+    double? quantity,
+    List<String>? images,
+    String? category,
+    double? price,
+    int? like,
+    int? disLike,
+    String? id,
+    List<Rating>? rating,
+    String? totalRating,
+     
+  }) {
+    return Product(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      quantity: quantity ?? this.quantity,
+      images: images ?? this.images,
+      category: category ?? this.category,
+      price: price ?? this.price,
+      like: like ?? this.like,
+      disLike: disLike ?? this.disLike,
+      id: id ?? this.id,
+      rating: rating ?? this.rating,
+      totalRating: totalRating ?? this.totalRating,
+      
+    );
+  }
 }
+
+// rating
+// cart List<dynamic> rating
+// rating : List<Map<String, dynamic>> .from(map['rating']?.map((x)=>Map<String, dynamic>
+// )
+
+//! favorite page , orders page rating and and reviews 
+//? 

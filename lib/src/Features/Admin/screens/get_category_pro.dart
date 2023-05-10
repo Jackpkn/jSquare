@@ -23,15 +23,15 @@ class _GetCategoryProState extends State<GetCategoryPro> {
   List<CategoryModel>? categoryList;
   @override
   void initState() {
-    fetchCategoryProduct(context);
+    // fetchCategoryProduct(context);
     super.initState();
   }
 
-  fetchCategoryProduct(BuildContext context) async {
-    final adminProvider = context.read<AdminCategoryProvider>();
-    categoryList = await adminProvider.getCategoryProduct();
-    setState(() {});
-  }
+  // fetchCategoryProduct(BuildContext context) async {
+  //   final adminProvider = context.read<AdminCategoryProvider>();
+  //   categoryList = await adminProvider.getCategoryProduct();
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _GetCategoryProState extends State<GetCategoryPro> {
                               child: Stack(
                                 children: [
                                   CachedNetImage(
-                                      imageUrl: data.image[0],
+                                      imageUrl: data.image![0],
                                       height: 267,
                                       width: MediaQuery.of(context).size.width),
                                   Positioned(

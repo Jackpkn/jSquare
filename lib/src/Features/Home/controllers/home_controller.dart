@@ -1,26 +1,28 @@
-import 'package:get/get.dart';
-import 'package:jsquare/src/providers/user_provider.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import '../../../models/category_model.dart';
-import '../services/home_service_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 class HomeController extends GetxController {
+  // HomeController._(); //
   var tabStatus = true.obs;
-  List<CategoryModel>? categoryList;
-  UserProvider userProvider = Get.put(UserProvider());
+  var isLoading = true.obs;
+  // List<CategoryModel>? categoryList;
+  var list = [].obs;
+
+
   fetchCategoryProducts() async {
-    final data = Get.put(CategoryProvider());
-    categoryList = await data.getCategoryProduct();
-    update();
+    try {
+      isLoading(false);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   @override
   void onInit() {
     fetchCategoryProducts();
     super.onInit();
-  }
-
-  void toggleTabs() {
-    tabStatus.value = !tabStatus.value;
   }
 }

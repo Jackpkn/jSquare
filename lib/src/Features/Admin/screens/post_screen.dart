@@ -62,9 +62,9 @@ class _PostScreenState extends State<PostScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Text(
-                            productData.name,
+                            'productData.name',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
